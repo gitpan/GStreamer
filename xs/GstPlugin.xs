@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstPlugin.xs,v 1.2 2005/03/28 22:52:07 kaffeetisch Exp $
+ * $Id: GstPlugin.xs,v 1.3 2005/06/12 17:29:15 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -133,12 +133,46 @@ gst_plugin_find_feature (plugin, name, type)
     C_ARGS:
 	plugin, name, gperl_type_from_package (type)
 
+=for apidoc __function__
+=cut
+# gboolean gst_plugin_check_file (const gchar *filename, GError** error);
+gboolean
+gst_plugin_check_file (filename)
+	const gchar *filename
+    PREINIT:
+	GError *error = NULL;
+    CODE:
+	RETVAL = gst_plugin_check_file (filename, &error);
+	if (!RETVAL)
+		gperl_croak_gerror (NULL, error);
+    OUTPUT:
+	RETVAL
+
+=for apidoc __function__
+=cut
+# GstPlugin * gst_plugin_load_file (const gchar *filename, GError** error);
+GstPlugin *
+gst_plugin_load_file (filename)
+	const gchar *filename
+    PREINIT:
+	GError *error = NULL;
+    CODE:
+	RETVAL = gst_plugin_load_file (filename, &error);
+	if (!RETVAL)
+		gperl_croak_gerror (NULL, error);
+    OUTPUT:
+	RETVAL
+
 gboolean gst_plugin_unload_plugin (GstPlugin *plugin);
 
 void gst_plugin_add_feature (GstPlugin *plugin, GstPluginFeature *feature);
 
-# FIXME: Bind as class static methods or functions?
-# gboolean gst_plugin_check_file (const gchar *filename, GError** error);
-# GstPlugin * gst_plugin_load_file (const gchar *filename, GError** error);
-# gboolean gst_plugin_load (const gchar *name);
-# gboolean gst_library_load (const gchar *name);
+=for apidoc __function__
+=cut
+gboolean gst_plugin_load (const gchar *name);
+
+MODULE = GStreamer::Plugin	PACKAGE = GStreamer::Library	PREFIX = gst_library_
+
+=for apidoc __function__
+=cut
+gboolean gst_library_load (const gchar *name);

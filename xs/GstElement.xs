@@ -15,10 +15,114 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstElement.xs,v 1.3 2005/03/28 22:52:07 kaffeetisch Exp $
+ * $Id: GstElement.xs,v 1.9 2005/06/12 17:29:15 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
+
+/* ------------------------------------------------------------------------- */
+
+SV *
+newSVGstInt64 (gint64 value)
+{
+	char string[20];
+	STRLEN length;
+	SV *sv;
+
+	/* newSVpvf doesn't seem to work correctly. */
+	length = sprintf(string, "%lli", value);
+	sv = newSVpv (string, length);
+
+	return sv;
+}
+
+gint64
+SvGstInt64 (SV *sv)
+{
+	return atoll (SvPV_nolen (sv));
+}
+
+SV *
+newSVGstUInt64 (guint64 value)
+{
+	char string[20];
+	STRLEN length;
+	SV *sv;
+
+	/* newSVpvf doesn't seem to work correctly. */
+	length = sprintf(string, "%llu", value);
+	sv = newSVpv (string, length);
+
+	return sv;
+}
+
+guint64
+SvGstUInt64 (SV *sv)
+{
+	return atoll (SvPV_nolen (sv));
+}
+
+/* ------------------------------------------------------------------------- */
+
+GstSeekType
+SvGstSeekType (SV *val)
+{
+	gint value = 0;
+
+	/* This is copied nearly verbatim from GType.xs, because we can't
+	   afford to croak right away. */
+	if (SvROK (val) && sv_derived_from (val, "Glib::Flags"))
+        	return SvIV (SvRV (val));
+
+	if (SvROK (val) && SvTYPE (SvRV(val)) == SVt_PVAV) {
+		AV* vals = (AV*) SvRV(val);
+		gint tmp = 0;
+		int i;
+		for (i=0; i<=av_len(vals); i++) {
+			if (gperl_try_convert_flag (
+			      GST_TYPE_SEEK_TYPE,
+			      SvPV_nolen (*av_fetch (vals, i, 0)),
+			      &tmp) ||
+			    gperl_try_convert_enum (
+			      GST_TYPE_FORMAT,
+			      *av_fetch (vals, i, 0),
+			      &tmp)) {
+				value |= tmp;
+				continue;
+			}
+
+			croak ("FATAL: invalid flags %s/%s value %s",
+			       g_type_name (GST_TYPE_SEEK_TYPE),
+			       g_type_name (GST_TYPE_FORMAT),
+			       SvPV_nolen (*av_fetch (vals, i, 0)));
+
+		}
+
+		return value;
+	}
+
+	if (SvPOK (val)) {
+		if (gperl_try_convert_flag (
+		      GST_TYPE_SEEK_TYPE,
+		      SvPV_nolen (val),
+		      &value) ||
+		    gperl_try_convert_enum (
+		      GST_TYPE_FORMAT,
+		      val,
+		      &value))
+			return value;
+
+		croak ("FATAL: invalid flags %s/%s value %s",
+		       g_type_name (GST_TYPE_SEEK_TYPE),
+		       g_type_name (GST_TYPE_FORMAT),
+		       SvPV_nolen (val));
+	}
+
+	croak ("FATAL: invalid flags %s/%s value %s, expecting a string scalar or an arrayref of strings",
+	       g_type_name (GST_TYPE_SEEK_TYPE),
+	       g_type_name (GST_TYPE_FORMAT),
+	       SvPV_nolen (val));
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -79,13 +183,14 @@ MODULE = GStreamer::Element	PACKAGE = GStreamer::Element	PREFIX = gst_element_
 
 BOOT:
 	gperl_object_set_no_warn_unreg_subclass (GST_TYPE_ELEMENT, TRUE);
+	gperl_set_isa ("GStreamer::Element", "GStreamer::TagSetter");
 
 # FIXME?
 # void gst_element_class_add_pad_template (GstElementClass *klass, GstPadTemplate *templ);
 # void gst_element_class_install_std_props (GstElementClass *klass, const gchar *first_name, ...);
 # void gst_element_class_set_details (GstElementClass *klass, const GstElementDetails *details);
 
-# FIXME
+# FIXME?
 # void gst_element_default_error (GObject *object, GstObject *orig, GError *error, gchar *debug);
 
 # void gst_element_set_loop_function (GstElement *element, GstElementLoopFunction loop);
@@ -125,9 +230,22 @@ gst_element_set (element, property, value, ...);
 	for (i = 1; i < items; i += 2) {
 		char *name = SvGChar (ST (i));
 		SV *value = ST (i + 1);
+		GType type;
 
 		init_property_value (G_OBJECT (element), name, &real_value);
-		gperl_value_from_sv (&real_value, value);
+		type = G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (&real_value));
+
+		/* If we don't special-case "location", gperl_value_from_sv
+		 * assumes it is utf8, which doesn't always hold. */
+		if (strEQ (name, "location"))
+			g_value_set_string (&real_value, SvPV_nolen (value));
+		else if (type == G_TYPE_INT64)
+			g_value_set_int64 (&real_value, SvGstInt64 (value));
+		else if (type == G_TYPE_UINT64)
+			g_value_set_uint64 (&real_value, SvGstUInt64 (value));
+		else
+			gperl_value_from_sv (&real_value, value);
+
 		gst_element_set_property (element, name, &real_value);
 		g_value_unset (&real_value);
 	}
@@ -149,10 +267,21 @@ gst_element_get (element, property, ...);
 
 	for (i = 1; i < items; i++) {
 		char *name = SvGChar (ST (i));
+		SV *sv;
+		GType type;
 
 		init_property_value (G_OBJECT (element), name, &value);
 		gst_element_get_property (element, name, &value);
-		XPUSHs (sv_2mortal (gperl_sv_from_value (&value)));
+		type = G_TYPE_FUNDAMENTAL (G_VALUE_TYPE (&value));
+
+		if (type == G_TYPE_INT64)
+			sv = newSVGstInt64 (g_value_get_int64 (&value));
+		else if (type == G_TYPE_UINT64)
+			sv = newSVGstUInt64 (g_value_get_uint64 (&value));
+		else
+			sv = gperl_sv_from_value (&value);
+
+		XPUSHs (sv_2mortal (sv));
 		g_value_unset (&value);
 	}
 
@@ -339,7 +468,7 @@ gst_element_send_event (element, event)
 	/* event gets unref'ed, we need to keep it alive. */
 	element, gst_event_ref (event)
 
-gboolean gst_element_seek (GstElement *element, GstSeekType seek_type, guint64 offset);
+gboolean gst_element_seek (GstElement *element, GstSeekType seek_type, GstUInt64 offset);
 
 # G_CONST_RETURN GstQueryType* gst_element_get_query_types (GstElement *element);
 void
@@ -365,7 +494,7 @@ gst_element_query (element, type, format)
 	if (gst_element_query (element, type, &format, &value)) {
 		EXTEND (sp, 2);
 		PUSHs (sv_2mortal (newSVGstFormat (format)));
-		PUSHs (sv_2mortal (newSVnv (value)));
+		PUSHs (sv_2mortal (newSVGstInt64 (value)));
 	}
 
 # G_CONST_RETURN GstFormat* gst_element_get_formats (GstElement *element);
@@ -385,7 +514,7 @@ void
 gst_element_convert (element, src_format, src_value, dest_format)
 	GstElement *element
 	GstFormat src_format
-	gint64 src_value
+	GstInt64 src_value
 	GstFormat dest_format
     PREINIT:
 	gint64 dest_value = 0;
@@ -393,12 +522,21 @@ gst_element_convert (element, src_format, src_value, dest_format)
 	if (gst_element_convert (element, src_format, src_value, &dest_format, &dest_value)) {
 		EXTEND (sp, 2);
 		PUSHs (sv_2mortal (newSVGstFormat (dest_format)));
-		PUSHs (sv_2mortal (newSVnv (dest_value)));
+		PUSHs (sv_2mortal (newSVGstInt64 (dest_value)));
 	}
 
-# FIXME: Need GstTagList support.
-# void gst_element_found_tags (GstElement *element, const GstTagList *tag_list);
+void gst_element_found_tags (GstElement *element, const GstTagList *tag_list);
+
 # void gst_element_found_tags_for_pad (GstElement *element, GstPad *pad, GstClockTime timestamp, GstTagList *list);
+void
+gst_element_found_tags_for_pad (element, pad, timestamp, list)
+	GstElement *element
+	GstPad *pad
+	GstClockTime timestamp
+	GstTagList *list
+    C_ARGS:
+	/* gst_element_found_tags_for_pad takes ownership of list. */
+	element, pad, timestamp, gst_tag_list_copy (list)
 
 void gst_element_set_eos (GstElement *element);
 

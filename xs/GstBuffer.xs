@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstBuffer.xs,v 1.2 2005/03/28 22:52:07 kaffeetisch Exp $
+ * $Id: GstBuffer.xs,v 1.3 2005/05/29 14:16:00 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -67,7 +67,7 @@ duration (buffer)
     OUTPUT:
 	RETVAL
 
-guint64
+GstUInt64
 offset (buffer)
 	GstBuffer *buffer
     CODE:
@@ -75,7 +75,7 @@ offset (buffer)
     OUTPUT:
 	RETVAL
 
-guint64
+GstUInt64
 offset_end (buffer)
 	GstBuffer *buffer
     CODE:

@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 58;
+use Test::More tests => 67;
 
-# $Id: GstElement.t,v 1.3 2005/03/28 22:52:07 kaffeetisch Exp $
+# $Id: GstElement.t,v 1.5 2005/05/23 20:42:21 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -172,11 +172,27 @@ is($element -> get_event_masks(), undef);
 
 ok(!$element -> send_event(GStreamer::Event -> new("interrupt")));
 ok(!$element -> seek(qw(method-end), 0));
+ok(!$element -> seek([qw(method-end)], 0));
+ok(!$element -> seek([qw(method-set flag-accurate time)], 0));
+ok(!$element -> seek([qw(method-cur flag-flush buffers)], 0));
 
 is($element -> get_query_types(), undef);
 is($element -> query("position", "default"), undef);
 is($element -> get_formats(), undef);
 is_deeply([$element -> convert("time", 23, "time")], ["time", 23]);
+
+my $test_tags = { title => ["Urgs"], artist => [qw(Screw You)] };
+
+$element_one -> signal_connect(found_tag => sub {
+  my ($instance, $source, $tags) = @_;
+
+  is($instance, $element_one);
+  is($source, $element_one);
+  is_deeply($tags, $test_tags);
+});
+
+$element_one -> found_tags($test_tags);
+$element_one -> found_tags_for_pad($pad_one, 23, $test_tags);
 
 $element -> set_eos();
 

@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstBin.xs,v 1.1 2005/03/23 20:47:15 kaffeetisch Exp $
+ * $Id: GstBin.xs,v 1.2 2005/05/08 21:18:43 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -79,7 +79,8 @@ gst_bin_get_list (bin)
 	for (i = list; i != NULL; i = i->next)
 		XPUSHs (sv_2mortal (newSVGstElement (i->data)));
 
-# FIXME?
+# FIXME: This would only work if we registered every plugin's type with the
+#        bindings, wouldn't it?
 # GstElement* gst_bin_get_by_interface (GstBin *bin, GType interface);
 # GList * gst_bin_get_all_by_interface (GstBin *bin, GType interface);
 

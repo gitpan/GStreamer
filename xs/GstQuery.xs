@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstQuery.xs,v 1.1 2005/03/23 20:47:17 kaffeetisch Exp $
+ * $Id: GstQuery.xs,v 1.2 2005/06/12 17:29:15 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -51,12 +51,16 @@ SvGstQueryType (SV *sv)
 
 MODULE = GStreamer::QueryType		PACKAGE = GStreamer::QueryType	PREFIX = gst_query_type_
 
+=for apidoc __function__
+=cut
 # GstQueryType gst_query_type_register (const gchar *nick, const gchar *description);
 GstQueryType
 gst_query_type_register (nick, description)
 	const gchar *nick
 	const gchar *description
 
+=for apidoc __function__
+=cut
 # GstQueryType gst_query_type_get_by_nick (const gchar *nick);
 GstQueryType
 gst_query_type_get_by_nick (nick)
@@ -65,6 +69,8 @@ gst_query_type_get_by_nick (nick)
 # FIXME?
 # gboolean gst_query_types_contains (const GstQueryType *types, GstQueryType type);
 
+=for apidoc __function__
+=cut
 # G_CONST_RETURN GstQueryTypeDefinition* gst_query_type_get_details (GstQueryType type);
 void
 gst_query_type_get_details (type)
@@ -80,6 +86,8 @@ gst_query_type_get_details (type)
 		PUSHs (sv_2mortal (newSVGChar (details->description)));
 	}
 
+=for apidoc __function__
+=cut
 # G_CONST_RETURN GList* gst_query_type_get_definitions (void);
 void
 gst_query_type_get_definitions ()

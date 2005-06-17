@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstPad.xs,v 1.2 2005/03/28 22:52:07 kaffeetisch Exp $
+ * $Id: GstPad.xs,v 1.4 2005/06/12 17:29:15 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -260,7 +260,7 @@ void
 gst_pad_convert (pad, src_format, src_value, dest_format)
 	GstPad *pad
 	GstFormat src_format
-	gint64 src_value
+	GstInt64 src_value
 	GstFormat dest_format
     ALIAS:
 	GStreamer::Pad::convert_default = 1
@@ -271,7 +271,7 @@ gst_pad_convert (pad, src_format, src_value, dest_format)
 	              gst_pad_convert (pad, src_format, src_value, &dest_format, &dest_value)) {
 		EXTEND (sp, 2);
 		PUSHs (sv_2mortal (newSVGstFormat (dest_format)));
-		PUSHs (sv_2mortal (newSVnv (dest_value)));
+		PUSHs (sv_2mortal (newSVGstInt64 (dest_value)));
 	}
 
 # const GstQueryType* gst_pad_get_query_types (GstPad *pad);
@@ -306,7 +306,7 @@ gst_pad_query (pad, type, format)
 	              gst_pad_query (pad, type, &format, &value)) {
 		EXTEND (sp, 2);
 		PUSHs (sv_2mortal (newSVGstFormat (format)));
-		PUSHs (sv_2mortal (newSVnv (value)));
+		PUSHs (sv_2mortal (newSVGstInt64 (value)));
 	}
 
 # GList* gst_pad_get_internal_links (GstPad *pad);
@@ -373,7 +373,7 @@ gst_pad_template_new (class, name_template, direction, presence, caps)
 
 const GstCaps * gst_pad_template_get_caps (GstPadTemplate *templ);
 
-# FIXME: File bug reports about these missing accessors.
+# FIXME: File bug reports about these missing accessors?
 
 const gchar *
 get_name_template (templ)

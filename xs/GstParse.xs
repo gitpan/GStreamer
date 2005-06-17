@@ -15,13 +15,15 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstParse.xs,v 1.1 2005/03/23 20:47:17 kaffeetisch Exp $
+ * $Id: GstParse.xs,v 1.2 2005/06/12 17:29:15 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
 
 MODULE = GStreamer::Parse	PACKAGE = GStreamer::Parse	PREFIX = gst_parse_
 
+=for apidoc __function__
+=cut
 # GstElement* gst_parse_launch (const gchar *pipeline_description, GError **error);
 GstElement_noinc *
 gst_parse_launch (pipeline_description)

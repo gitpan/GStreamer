@@ -68,6 +68,12 @@ gperl_register_boxed (GST_TYPE_INDEX_ENTRY, "GStreamer::IndexEntry", NULL);
 #ifdef GST_TYPE_PLUGIN
 gperl_register_boxed (GST_TYPE_PLUGIN, "GStreamer::Plugin", NULL);
 #endif /* GST_TYPE_PLUGIN */
+#ifdef GST_TYPE_TAG_LIST
+gperl_register_boxed (GST_TYPE_TAG_LIST, "GStreamer::TagList", NULL);
+#endif /* GST_TYPE_TAG_LIST */
+#ifdef GST_TYPE_TAG_SETTER
+gperl_register_object (GST_TYPE_TAG_SETTER, "GStreamer::TagSetter");
+#endif /* GST_TYPE_TAG_SETTER */
 #ifdef GST_TYPE_G_ERROR
 gperl_register_boxed (GST_TYPE_G_ERROR, "GStreamer::Error", NULL);
 #endif /* GST_TYPE_G_ERROR */
@@ -104,6 +110,9 @@ gperl_register_fundamental (GST_TYPE_QUERY_TYPE, "GStreamer::QueryType");
 #ifdef GST_TYPE_URI_TYPE
 gperl_register_fundamental (GST_TYPE_URI_TYPE, "GStreamer::URIType");
 #endif /* GST_TYPE_URI_TYPE */
+#ifdef GST_TYPE_TAG_MERGE_MODE
+gperl_register_fundamental (GST_TYPE_TAG_MERGE_MODE, "GStreamer::TagMergeMode");
+#endif /* GST_TYPE_TAG_MERGE_MODE */
 #ifdef GST_TYPE_ASSOC_FLAGS
 gperl_register_fundamental (GST_TYPE_ASSOC_FLAGS, "GStreamer::AssocFlags");
 #endif /* GST_TYPE_ASSOC_FLAGS */
@@ -122,6 +131,9 @@ gperl_register_fundamental (GST_TYPE_REGISTRY_RETURN, "GStreamer::RegistryReturn
 #ifdef GST_TYPE_SEEK_TYPE
 gperl_register_fundamental (GST_TYPE_SEEK_TYPE, "GStreamer::SeekType");
 #endif /* GST_TYPE_SEEK_TYPE */
+#ifdef GST_TYPE_TAG_FLAG
+gperl_register_fundamental (GST_TYPE_TAG_FLAG, "GStreamer::TagFlag");
+#endif /* GST_TYPE_TAG_FLAG */
 #if defined(GST_CORE_ERROR) /* && defined(GST_TYPE_CORE_ERROR) */
 gperl_register_error_domain (GST_CORE_ERROR, GST_TYPE_CORE_ERROR, "GStreamer::CoreError");
 #endif /* GST_CORE_ERROR */

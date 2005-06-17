@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstRegistryPool.xs,v 1.1 2005/03/23 20:47:17 kaffeetisch Exp $
+ * $Id: GstRegistryPool.xs,v 1.2 2005/05/23 20:42:21 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -46,6 +46,7 @@ gst_registry_pool_list (class)
     PREINIT:
 	GList *list, *i;
     PPCODE:
+	PERL_UNUSED_VAR (ax);
 	list = gst_registry_pool_list ();
 	for (i = list; i != NULL; i = i->next)
 		XPUSHs (sv_2mortal (newSVGstRegistry (i->data)));
@@ -127,6 +128,7 @@ gst_registry_pool_plugin_list (class)
     PREINIT:
 	GList *list, *i;
     PPCODE:
+	PERL_UNUSED_VAR (ax);
 	list = gst_registry_pool_plugin_list ();
 	for (i = list; i != NULL; i = i->next)
 		XPUSHs (sv_2mortal (newSVGstPlugin (i->data)));

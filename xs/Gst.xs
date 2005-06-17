@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: Gst.xs,v 1.2 2005/03/28 22:52:07 kaffeetisch Exp $
+ * $Id: Gst.xs,v 1.4 2005/06/12 17:29:15 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -24,7 +24,7 @@ MODULE = GStreamer	PACKAGE = GStreamer	PREFIX = gst_
 
 BOOT:
 	/* This stupid hack is required because some of GStreamer's type macros
-	 * directly use a static variable, instead of the usual reference to
+	 * use a static variable directly, instead of the usual reference to
 	 * the _get_type function.  Thus, the macros we rely on are NULL until
 	 * the corresponding _get_type() function has been called. */
 	gst_object_get_type ();
@@ -73,6 +73,7 @@ gst_version (class)
     PREINIT:
 	guint major, minor, micro;
     PPCODE:
+	PERL_UNUSED_VAR (ax);
 	gst_version (&major, &minor, &micro);
 	EXTEND (sp, 3);
 	PUSHs (sv_2mortal (newSVuv (major)));
@@ -119,9 +120,7 @@ gst_init_check (class)
 	RETVAL
 
 # void gst_init_with_popt_table (int *argc, char **argv[], const GstPoptOption *popt_options);
-
 # gboolean gst_init_check_with_popt_table (int *argc, char **argv[], const GstPoptOption *popt_options);
-
 # const GstPoptOption * gst_init_get_popt_table (void);
 
 =for apidoc __hide__

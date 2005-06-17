@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 16;
+use Test::More tests => 19;
 
-# $Id: GstPlugin.t,v 1.2 2005/03/28 22:52:07 kaffeetisch Exp $
+# $Id: GstPlugin.t,v 1.3 2005/06/12 17:29:15 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -45,3 +45,16 @@ isa_ok($plugin -> find_feature("volume", "GStreamer::ElementFactory"), "GStreame
 $plugin -> add_feature($plugin -> find_feature("volume", "GStreamer::ElementFactory"));
 
 ok($plugin -> unload_plugin());
+
+my $so = "/usr/lib/gstreamer-0.8/libgstossaudio.so";
+
+SKIP: {
+  skip "OSS plugin not found", 3
+    unless GStreamer::Plugin::check_file($so);
+
+  my $plugin = GStreamer::Plugin::load_file($so);
+  isa_ok($plugin, "GStreamer::Plugin");
+
+  ok(GStreamer::Plugin::load("ossaudio"));
+  ok(GStreamer::Library::load("ossaudio"));
+}

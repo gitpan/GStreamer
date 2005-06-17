@@ -23,5 +23,7 @@ GPERL_CALL_BOOT (boot_GStreamer__Registry);
 GPERL_CALL_BOOT (boot_GStreamer__RegistryPool);
 GPERL_CALL_BOOT (boot_GStreamer__Scheduler);
 GPERL_CALL_BOOT (boot_GStreamer__Structure);
+GPERL_CALL_BOOT (boot_GStreamer__Tag);
+GPERL_CALL_BOOT (boot_GStreamer__TagSetter);
 GPERL_CALL_BOOT (boot_GStreamer__Thread);
 GPERL_CALL_BOOT (boot_GStreamer__Value);

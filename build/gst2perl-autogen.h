@@ -317,6 +317,30 @@ typedef GstThread GstThread_noinc_ornull;
 # define newSVGstPlugin_own_ornull(val)	((val) ? newSVGstPlugin_own(val) : &PL_sv_undef)
 #endif /* GST_TYPE_PLUGIN */
 
+#ifdef GST_TYPE_TAG_LIST
+  /* GBoxed GstTagList */
+  typedef GstTagList GstTagList_ornull;
+# define SvGstTagList(sv)	(gperl_get_boxed_check ((sv), GST_TYPE_TAG_LIST))
+# define SvGstTagList_ornull(sv)	(((sv) && SvOK (sv)) ? SvGstTagList (sv) : NULL)
+  typedef GstTagList GstTagList_own;
+  typedef GstTagList GstTagList_copy;
+  typedef GstTagList GstTagList_own_ornull;
+# define newSVGstTagList(val)	(gperl_new_boxed ((gpointer) (val), GST_TYPE_TAG_LIST, FALSE))
+# define newSVGstTagList_ornull(val)	((val) ? newSVGstTagList(val) : &PL_sv_undef)
+# define newSVGstTagList_own(val)	(gperl_new_boxed ((gpointer) (val), GST_TYPE_TAG_LIST, TRUE))
+# define newSVGstTagList_copy(val)	(gperl_new_boxed_copy ((gpointer) (val), GST_TYPE_TAG_LIST))
+# define newSVGstTagList_own_ornull(val)	((val) ? newSVGstTagList_own(val) : &PL_sv_undef)
+#endif /* GST_TYPE_TAG_LIST */
+
+#ifdef GST_TYPE_TAG_SETTER
+  /* GInterface derivative GstTagSetter */
+# define SvGstTagSetter(sv)	((GstTagSetter*)gperl_get_object_check (sv, GST_TYPE_TAG_SETTER))
+# define newSVGstTagSetter(val)	(gperl_new_object (G_OBJECT (val), FALSE))
+  typedef GstTagSetter GstTagSetter_ornull;
+# define SvGstTagSetter_ornull(sv)	(((sv) && SvOK (sv)) ? SvGstTagSetter(sv) : NULL)
+# define newSVGstTagSetter_ornull(val)	(((val) == NULL) ? &PL_sv_undef : gperl_new_object (G_OBJECT (val), FALSE))
+#endif /* GST_TYPE_TAG_SETTER */
+
 #ifdef GST_TYPE_G_ERROR
   /* GBoxed GError */
   typedef GError GError_ornull;
@@ -398,6 +422,12 @@ typedef GstThread GstThread_noinc_ornull;
 # define newSVGstURIType(val)	(gperl_convert_back_enum (GST_TYPE_URI_TYPE, val))
 #endif /* GST_TYPE_URI_TYPE */
 
+#ifdef GST_TYPE_TAG_MERGE_MODE
+  /* GEnum GstTagMergeMode */
+# define SvGstTagMergeMode(sv)	((GstTagMergeMode)gperl_convert_enum (GST_TYPE_TAG_MERGE_MODE, sv))
+# define newSVGstTagMergeMode(val)	(gperl_convert_back_enum (GST_TYPE_TAG_MERGE_MODE, val))
+#endif /* GST_TYPE_TAG_MERGE_MODE */
+
 #ifdef GST_TYPE_ASSOC_FLAGS
   /* GFlags GstAssocFlags */
 # define SvGstAssocFlags(sv)	((GstAssocFlags)gperl_convert_flags (GST_TYPE_ASSOC_FLAGS, sv))
@@ -433,3 +463,9 @@ typedef GstThread GstThread_noinc_ornull;
 # define SvGstSeekType(sv)	((GstSeekType)gperl_convert_flags (GST_TYPE_SEEK_TYPE, sv))
 # define newSVGstSeekType(val)	(gperl_convert_back_flags (GST_TYPE_SEEK_TYPE, val))
 #endif /* GST_TYPE_SEEK_TYPE */
+
+#ifdef GST_TYPE_TAG_FLAG
+  /* GFlags GstTagFlag */
+# define SvGstTagFlag(sv)	((GstTagFlag)gperl_convert_flags (GST_TYPE_TAG_FLAG, sv))
+# define newSVGstTagFlag(val)	(gperl_convert_back_flags (GST_TYPE_TAG_FLAG, val))
+#endif /* GST_TYPE_TAG_FLAG */
