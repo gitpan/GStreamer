@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 16;
+use Test::More tests => 15;
 
-# $Id: GstRegistry.t,v 1.1 2005/03/23 20:46:57 kaffeetisch Exp $
+# $Id: GstRegistry.t,v 1.2 2005/08/13 16:39:45 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -11,7 +11,7 @@ use GStreamer -init;
 my $registry = GStreamer::RegistryPool -> get_prefered([qw/readable/]);
 
 ok($registry -> load());
-ok($registry -> save());
+# ok($registry -> save());
 ok($registry -> rebuild());
 
 $registry -> add_path(".");

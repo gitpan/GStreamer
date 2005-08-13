@@ -1,6 +1,6 @@
 package GStreamer;
 
-# $Id: GStreamer.pm,v 1.3 2005/06/17 17:07:06 kaffeetisch Exp $
+# $Id: GStreamer.pm,v 1.5 2005/08/13 16:49:13 kaffeetisch Exp $
 
 use 5.008;
 use strict;
@@ -28,7 +28,7 @@ our @EXPORT_OK = qw(
 
 # --------------------------------------------------------------------------- #
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub import {
   my ($self) = @_;
@@ -62,9 +62,9 @@ sub GST_TIME_ARGS {
   my ($t) = @_;
 
   return ($t / (GST_SECOND * 60 * 60),
-          ($t / (GST_SECOND * 60)) % 60,
-          ($t / GST_SECOND) % 60,
-          $t % GST_SECOND);
+         ($t / (GST_SECOND * 60)) % 60,
+         ($t / GST_SECOND) % 60,
+         $t % GST_SECOND);
 }
 
 use constant GST_RANK_NONE => 0;
@@ -72,9 +72,95 @@ use constant GST_RANK_MARGINAL => 64;
 use constant GST_RANK_SECONDARY => 128;
 use constant GST_RANK_PRIMARY => 256;
 
-1;
+# --------------------------------------------------------------------------- #
+
+package GStreamer::Caps;
+
+use overload
+  '+' => \&__append,
+  '-' => \&__subtract,
+  '&' => \&__intersect,
+  '|' => \&__union,
+  '<=' => \&__is_subset,
+  '>=' => \&__is_superset,
+  '==' => \&__is_equal,
+  '""' => \&__to_string,
+  fallback => 1;
+
+sub __append {
+  my ($a, $b, $swap) = @_;
+  my $tmp = GStreamer::Caps -> new_empty();
+
+  unless ($swap) {
+    $tmp -> append($a);
+    $tmp -> append($b);
+  } else {
+    $tmp -> append($b);
+    $tmp -> append($a);
+  }
+
+  return $tmp;
+}
+
+sub __subtract {
+  my ($a, $b, $swap) = @_;
+
+  return $swap ?
+    $b -> subtract($a) :
+    $a -> subtract($b);
+}
+
+sub __intersect {
+  my ($a, $b, $swap) = @_;
+
+  return $swap ?
+    $b -> intersect($a) :
+    $a -> intersect($b);
+}
+
+sub __union {
+  my ($a, $b, $swap) = @_;
+
+  return $swap ?
+    $b -> union($a) :
+    $a -> union($b);
+}
+
+sub __is_subset {
+  my ($a, $b, $swap) = @_;
+
+  return $swap ?
+    $b -> is_subset($a) :
+    $a -> is_subset($b);
+}
+
+sub __is_superset {
+  my ($a, $b, $swap) = @_;
+
+  return $swap ?
+    $a -> is_subset($b) :
+    $b -> is_subset($a);
+}
+
+sub __is_equal {
+  my ($a, $b, $swap) = @_;
+
+  return $swap ?
+    $b -> is_equal($a) :
+    $a -> is_equal($b);
+}
+
+sub __to_string {
+  my ($a) = @_;
+
+  return $a -> to_string();
+}
 
 # --------------------------------------------------------------------------- #
+
+package GStreamer;
+
+1;
 
 __END__
 

@@ -2,18 +2,11 @@ ChangeLog
 GStreamer.pm
 LICENSE
 MANIFEST			This list of files
-META.yml			Module meta-data (added by MakeMaker)
+MANIFEST.SKIP
 Makefile.PL
 NEWS
 README
 TODO
-build/IFiles.pm
-build/boot.xsh
-build/doc.pl
-build/gst2perl-autogen.h
-build/gst2perl-version.h
-build/gst2perl.typemap
-build/register.xsh
 copyright.pod
 doctypes
 examples/manual/bin.pl
@@ -88,3 +81,4 @@ xs/GstTag.xs
 xs/GstTagSetter.xs
 xs/GstThread.xs
 xs/GstValue.xs
+META.yml                                 Module meta-data (added by MakeMaker)

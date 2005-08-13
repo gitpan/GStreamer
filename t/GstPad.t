@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 52;
 
-# $Id: GstPad.t,v 1.3 2005/04/03 17:57:07 kaffeetisch Exp $
+# $Id: GstPad.t,v 1.4 2005/07/26 20:18:18 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -110,8 +110,9 @@ $source_pad -> use_explicit_caps();
 ok($source_pad -> set_explicit_caps($fixed_caps));
 
 SKIP: {
-  skip "broken stuff in 0.8.6/0.8.7", 1
-    if eq_array([GStreamer -> GET_VERSION_INFO()], [0, 8, 6]) ||
+  skip "broken stuff in 0.8.5/0.8.6/0.8.7", 1
+    if eq_array([GStreamer -> GET_VERSION_INFO()], [0, 8, 5]) ||
+       eq_array([GStreamer -> GET_VERSION_INFO()], [0, 8, 6]) ||
        eq_array([GStreamer -> GET_VERSION_INFO()], [0, 8, 7]);
 
   ok($source_pad -> set_explicit_caps(undef));
