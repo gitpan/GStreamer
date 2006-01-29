@@ -1,39 +1,36 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 14;
+use Test::More tests => 20;
 
-# $Id: GstClock.t,v 1.2 2005/03/28 22:52:07 kaffeetisch Exp $
+# $Id: GstClock.t,v 1.4 2006/01/29 20:45:40 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
 
-my $element = GStreamer::ElementFactory -> make("osssink", "sink");
-my $clock = $element -> get_clock();
+my $element = GStreamer::ElementFactory -> make("alsasink", "sink");
+my $clock = $element -> provide_clock();
 
-is($clock -> set_speed(1), 1);
-is($clock -> get_speed(), 1);
+my $master_element = GStreamer::ElementFactory -> make("alsasink", "sink");
+my $master = $element -> provide_clock();
 
 is($clock -> set_resolution(1000), 0);
 is($clock -> get_resolution(), 1000);
 
-# FIXME: Deprecated.  Not bind them?
-# $clock -> set_active(TRUE);
-# ok($clock -> is_active());
-# $clock -> reset();
-# $clock -> handle_discont(23);
+ok($clock -> get_time() >= 0);
 
-ok($clock -> get_time() > 0);
-ok($clock -> get_event_time() > 0);
+$clock -> set_calibration(0, 2, 3, 4);
+is_deeply([$clock -> get_calibration()], [0, 2, 3, 4]);
 
-SKIP: {
-  skip "new stuff", 1
-    unless GStreamer -> CHECK_VERSION(0, 8, 1);
+ok($clock -> set_master($master));
+is($clock -> get_master(), $master);
 
-  ok($clock -> get_event_time_delay(23) > 0);
-}
+my ($result, $r) = $clock -> add_observation(23, 42);
+ok(!$result);
+ok($r >= 0);
 
-is($clock -> get_next_id(), undef);
+ok($clock -> get_internal_time() >= 0);
+ok($clock -> adjust_unlocked(23) >= 0);
 
 my $id = $clock -> new_single_shot_id($clock -> get_time() + 100);
 isa_ok($id, "GStreamer::ClockID");
@@ -44,10 +41,31 @@ isa_ok($id, "GStreamer::ClockID");
 ok($id -> get_time() > 0);
 
 my ($return, $jitter) = $id -> wait();
-is($return, "stopped");
-ok($jitter > 0);
+is($return, "ok");
+ok($jitter >= 0);
 
-is($id -> wait_async(sub { warn @_; return TRUE; }, "bla"), "early");
+SKIP: {
+  skip "async waits cause threading related segfaults", 5;
 
-$id -> unlock();
+  my $loop = Glib::MainLoop -> new();
+
+  is($id -> wait_async(sub {
+    my ($clock, $time, $id, $data) = @_;
+
+    my $been_here = 0 if 0;
+    return TRUE if $been_here++;
+
+    isa_ok($clock, "GStreamer::Clock");
+    ok($time > 0);
+    isa_ok($id, "GStreamer::ClockID");
+    is($data, "bla");
+
+    $loop -> quit();
+
+    return TRUE;
+  }, "bla"), "ok");
+
+  $loop -> run();
+}
+
 $id -> unschedule();

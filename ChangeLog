@@ -1,3 +1,138 @@
+2006/01/29	kaffeetisch
+
+	* GStreamer.pm, NEWS: Release 0.06.
+
+2006/01/29	kaffeetisch
+
+	* t/GstClock.t: "Fix" a test failure.  Implement, but skip an
+	async wait test.  It seems to cause segfaults.
+
+2006/01/29	kaffeetisch
+
+	* examples/tagger.pl, examples/player.pl: Port to the 0.10 API.
+
+	* exampels/queue.pl, examples/read-metadata.pl: Use the fully
+	qualified name for Glib::filename_to_unicode and
+	Glib::filename_display_name instead of importing them.
+
+2006/01/24	kaffeetisch
+
+	* Makefile.PL: Require Glib 1.114 for the recent type-to-package
+	mapping improvements.
+
+	* t/GstRegistry.t: Ask for a feature that actually exists.
+
+	* t/GstTagSetter.t: Use vorbisenc instead of id3tag.
+
+	* xs/GstElement.xs: Don't call
+	gperl_object_set_no_warn_unreg_subclass on GST_TYPE_ELEMENT.  This
+	would prevent elements from getting a unique package name with all
+	implemented interfaces set up correctly.
+
+	* xs/GstGhostPad.xs, xs/GstTagSetter.xs: Remove now unneeded
+	gperl_set_isa calls.
+
+	* xs/GstTypeFindFactory.xs: Hush a compiler warning.
+
+2005/12/25	kaffeetisch
+
+	* examples/read-metadata.pl: Don't try to print fields with
+	undefined values.
+
+	* t/GstValue.t, xs/GstValue.xs: Implement and test GstDate
+	converters.
+
+2005/12/19	kaffeetisch
+
+	* examples/manual/query.pl: Turn off output buffering so you can
+	actually see the timer.
+
+	* t/GstQuery.t: Remove the TODO block now that the problem is
+	fixed.
+
+	* gst2perl.h, xs/GstEvent.xs, xs/GstMessage.xs, xs/GstQuery.xs,
+	xs/GstMiniObject.xs: Provide a way for GstMiniObject subclasses to
+	register custom package name lookup functions.  Make use of it in
+	GstEvent, GstMessage and GstQuery.  In addition to being cleaner,
+	this also fixes an obscure GstQuery bug.
+
+2005/12/07	kaffeetisch
+
+	* GStreamer.pm, Makefile.PL, NEWS, README: Depend on GStreamer >=
+	0.10.0 and Glib >= 1.110.  Release 0.05.
+
+2005/12/07	kaffeetisch
+
+	* t/GstElement.t: alsasink apparently doesn't require a clock
+	anymore.
+
+	* t/GstMessage.t: Don't use Glib::Int64 since Glib didn't the
+	register the fundamental until after the 1.110 release.
+
+2005/12/04	kaffeetisch
+
+	* GStreamer.pm: Update the synopsis.  Remove the main loop stuff.
+
+	* TODO: Update.
+
+	* doctypes, gst.typemap: Remove unused stuff.
+
+	* t/GstQuery.t: Put TODO blocks around the failing tests.
+
+	* xs/GstCaps.xs, xs/GstChildProxy.xs, xs/GstEvent.xs,
+	xs/GstIterator.xs, xs/GstMessage.xs, xs/GstQuery.xs: Add synopsis
+	and/or description sections.
+
+	* xs/GstEvent.xs: Add a "type" method that returns an event's
+	type.
+
+2005/12/03	kaffeetisch
+
+	* GStreamer.pm, MANIFEST, MANIFEST.SKIP, Makefile.PL, TODO,
+	gst.typemap, gst2perl.h, maps, examples/player.pl,
+	examples/queue.pl, examples/read-metadata.pl, examples/tagger.pl,
+	examples/manual/bus.pl, examples/manual/decodebin.pl,
+	examples/manual/dynamic.pl, examples/manual/elementfactory.pl,
+	examples/manual/fakesrc.pl, examples/manual/ghostpad.pl,
+	examples/manual/helloworld.pl, examples/manual/pad.pl,
+	examples/manual/playbin.pl, examples/manual/query.pl,
+	examples/manual/threads.pl, examples/manual/typefind.pl, t/Gst.t,
+	t/GstBin.t, t/GstBuffer.t, t/GstBus.t, t/GstCaps.t,
+	t/GstChildProxy.t, t/GstClock.t, t/GstData.tM t/GstElement.t,
+	t/GstElementFactory.t, t/GstEvent.tM t/GstFormat.t,
+	t/GstGhostPad.t, t/GstIndex.t, t/GstIndexFactory.t,
+	t/GstIterator.t, t/GstMessage.t, t/GstMiniObject.t, t/GstObject.t,
+	t/GstPad.t, t/GstPadTemplate.t, t/GstParse.t, t/GstPipeline.tM
+	t/GstPlugin.t, t/GstPluginFeature.t, t/GstQuery.t,
+	t/GstRegistry.t, t/GstRegistryPool.t, t/GstScheduler.t,
+	t/GstStructure.t, t/GstSystemClock.t, t/GstThread.t,
+	t/GstTypeFindFactory.t, t/GstValue.t, xs/Gst.xs, xs/GstBin.xs,
+	xs/GstBuffer.xs xs/GstBus.xs, xs/GstCaps.xs, xs/GstChildProxy.xs,
+	xs/GstClock.xs, xs/GstData.xs, xs/GstElement.xs,
+	xs/GstElementFactory.xs, xs/GstError.xs, xs/GstEvent.xs,
+	xs/GstFormat.xs, xs/GstGhostPad.xs, xs/GstIndex.xs,
+	xs/GstIndexFactory.xs, xs/GstIterator.xs, xs/GstMessage.xs,
+	xs/GstMiniObject.xs, xs/GstObject.xs, xs/GstPad.xs,
+	xs/GstPadTemplate.xs, xs/GstParse.xs, xs/GstPipeline.xs,
+	xs/GstPlugin.xs, xs/GstPluginFeature.xs, xs/GstQuery.xs,
+	xs/GstRegistry.xs, xs/GstRegistryPool.xs, xs/GstScheduler.xs,
+	xs/GstSystemClock.xs, xs/GstTagSetter.xs, xs/GstThread.xs,
+	xs/GstTypeFindFactory.xs, xs/GstValue.xs: Port to 0.9/0.10.
+	Implement and test new stuff; rigorously remove old things.
+
+	* gst.typemap, xs/GstBuffer.xs, xs/GstClock.xs, xs/GstElement.xs,
+	xs/GstIndex.xs, xs/GstTag.xs: Use Glib's new 64-bit converters.
+
+	* xs/GstStructure.xs: Plug a leak.  Fix some const issues.
+
+	* xs/GstValue.xs (gst2perl_int_range_unwrap): Check for SVt_PVAV
+	instead of SVt_PVHV.
+
+2005/09/28	kaffeetisch
+
+	* xs/GstElement.xs, xs/GstTagSetter.xs: Move the
+	GStreamer::TagSetter @ISA manipulation to GstTagSetter.xs.
+
 2005/09/09	kaffeetisch
 
 	* GStreamer.pm, NEWS, README: Release 0.04.

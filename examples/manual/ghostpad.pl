@@ -3,10 +3,12 @@ use strict;
 use warnings;
 use GStreamer -init;
 
-# $Id: ghostpad.pl,v 1.1 2005/03/23 20:46:46 kaffeetisch Exp $
+# $Id: ghostpad.pl,v 1.2 2005/12/03 00:28:13 kaffeetisch Exp $
 
 # create element, add to bin, add ghostpad
 my $sink = GStreamer::ElementFactory -> make("fakesink", "sink");
 my $bin = GStreamer::Bin -> new("mybin");
 $bin -> add($sink);
-$bin -> add_ghost_pad($sink -> get_pad("sink"), "sink");
+
+my $pad = $sink -> get_pad("sink");
+$bin -> add_pad(GStreamer::GhostPad -> new("sink", $pad));

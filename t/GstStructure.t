@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 8;
 
-# $Id: GstStructure.t,v 1.1 2005/03/23 20:47:12 kaffeetisch Exp $
+# $Id: GstStructure.t,v 1.2 2005/12/03 00:28:13 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -24,7 +24,7 @@ my $structure_two = {
   ]
 };
 
-my $caps = GStreamer::Caps -> new_full($structure_one);
+my $caps = GStreamer::Caps::Full -> new($structure_one);
 isa_ok($caps, "GStreamer::Caps");
 
 $caps -> append_structure($structure_two);

@@ -15,17 +15,23 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstError.xs,v 1.1 2005/03/23 20:47:16 kaffeetisch Exp $
+ * $Id: GstGhostPad.xs,v 1.2 2006/01/24 19:53:20 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
 
-MODULE = GStreamer::Error	PACKAGE = GStreamer::Error	PREFIX = gst_error_
+MODULE = GStreamer::GhostPad	PACKAGE = GStreamer::GhostPad	PREFIX = gst_ghost_pad_
 
-gchar *
-message (error)
-	GError *error
-    CODE:
-	RETVAL = error->message;
-    OUTPUT:
-	RETVAL
+# GstPad * gst_ghost_pad_new (const gchar *name, GstPad *target);
+GstPad_ornull * gst_ghost_pad_new (class, const gchar_ornull *name, GstPad *target)
+    C_ARGS:
+	name, target
+
+# GstPad * gst_ghost_pad_new_no_target (const gchar *name, GstPadDirection dir);
+GstPad_ornull * gst_ghost_pad_new_no_target (class, const gchar_ornull *name, GstPadDirection dir)
+    C_ARGS:
+	name, dir
+
+GstPad_ornull * gst_ghost_pad_get_target (GstGhostPad *gpad);
+
+gboolean gst_ghost_pad_set_target (GstGhostPad *gpad, GstPad *newtarget);

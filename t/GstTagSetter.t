@@ -3,15 +3,15 @@ use strict;
 use warnings;
 use Test::More tests => 3;
 
-# $Id: GstTagSetter.t,v 1.2 2005/08/13 16:39:45 kaffeetisch Exp $
+# $Id: GstTagSetter.t,v 1.3 2006/01/24 19:53:20 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
 
-my $tagger = GStreamer::ElementFactory -> make(id3tag => "tagger");
+my $tagger = GStreamer::ElementFactory -> make(vorbisenc => "tagger");
 
 SKIP: {
-  skip "tagger tests -- id3tag not found", 3
+  skip "tagger tests -- vorbisenc not found", 3
     unless defined $tagger;
 
   isa_ok($tagger, "GStreamer::TagSetter");

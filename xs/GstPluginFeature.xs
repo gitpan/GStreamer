@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstPluginFeature.xs,v 1.2 2005/03/25 18:26:18 kaffeetisch Exp $
+ * $Id: GstPluginFeature.xs,v 1.3 2005/12/03 00:28:13 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -56,9 +56,7 @@ MODULE = GStreamer::PluginFeature	PACKAGE = GStreamer::PluginFeature	PREFIX = gs
 BOOT:
 	gperl_object_set_no_warn_unreg_subclass (GST_TYPE_PLUGIN_FEATURE, TRUE);
 
-gboolean gst_plugin_feature_ensure_loaded (GstPluginFeature *feature);
-
-void gst_plugin_feature_unload_thyself (GstPluginFeature *feature);
+GstPluginFeature * gst_plugin_feature_load (GstPluginFeature *feature);
 
 # FIXME: Is this needed?  It's not documented.
 # gboolean gst_plugin_feature_type_name_filter (GstPluginFeature *feature, GstTypeNameData *data);
@@ -71,3 +69,5 @@ void gst_plugin_feature_set_name (GstPluginFeature *feature, const gchar *name);
 guint gst_plugin_feature_get_rank (GstPluginFeature *feature);
 
 const gchar *gst_plugin_feature_get_name (GstPluginFeature *feature);
+
+gboolean gst_plugin_feature_check_version (GstPluginFeature *feature, guint min_major, guint min_minor, guint min_micro);

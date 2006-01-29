@@ -15,24 +15,17 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstParse.xs,v 1.2 2005/06/12 17:29:15 kaffeetisch Exp $
+ * $Id: GstSystemClock.xs,v 1.1 2005/12/03 00:28:13 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
 
-MODULE = GStreamer::Parse	PACKAGE = GStreamer::Parse	PREFIX = gst_parse_
+MODULE = GStreamer::SystemClock	PACKAGE = GStreamer::SystemClock	PREFIX = gst_system_clock_
 
-=for apidoc __function__
-=cut
-# GstElement* gst_parse_launch (const gchar *pipeline_description, GError **error);
-GstElement_noinc *
-gst_parse_launch (pipeline_description)
-	const gchar *pipeline_description
-    PREINIT:
-	GError *error = NULL;
-    CODE:
-	RETVAL = gst_parse_launch (pipeline_description, &error);
-	if (!RETVAL)
-		gperl_croak_gerror (NULL, error);
-    OUTPUT:
-	RETVAL
+BOOT:
+	gperl_object_set_no_warn_unreg_subclass (GST_TYPE_SYSTEM_CLOCK, TRUE);
+
+# GstClock * gst_system_clock_obtain (void);
+GstClock * gst_system_clock_obtain (class)
+    C_ARGS:
+	/* void */

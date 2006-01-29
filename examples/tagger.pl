@@ -1,14 +1,44 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use GStreamer -init;
 
+use Glib qw(TRUE FALSE);
+use GStreamer -init;
 use Gtk2 -init;
 use Gtk2::GladeXML;
 
 $/ = undef;
 my $xml = Gtk2::GladeXML -> new_from_buffer(<DATA>);
 $xml -> signal_autoconnect_from_package("main");
+
+sub my_bus_callback {
+  my ($bus, $message, $loop) = @_;
+  my $done = FALSE;
+
+  if ($message -> type & "tag") {
+    my $tags = $message -> tag_list;
+    foreach (qw(artist title album)) {
+      if (exists $tags -> { $_ }) {
+        $xml -> get_widget("entry_$_") -> set_text($tags -> { $_ } -> [0]);
+        $done = TRUE;
+      }
+    }
+  }
+
+  elsif ($message -> type & "error") {
+    warn $message -> error;
+    $loop -> quit();
+  }
+
+  elsif ($message -> type & "eos") {
+    $loop -> quit();
+  }
+
+  $loop -> quit() if $done;
+
+  # remove message from the queue
+  return TRUE;
+}
 
 sub on_delete_event {
   Gtk2 -> main_quit();
@@ -17,40 +47,33 @@ sub on_delete_event {
 sub on_selection_changed {
   my ($chooser) = @_;
 
-  my $done = 0;
-
   my $file = $chooser -> get_filename();
+  return unless $file;
 
-  my $pipeline = GStreamer::Pipeline -> new("pipeline");
-  my ($source, $tagger) =
-    GStreamer::ElementFactory -> make(filesrc => "src",
-                                      id3tag => "tagger");
+  my $pipeline = GStreamer::Pipeline -> new("pipe");
 
-  $source -> set(location => $file);
-  $tagger -> signal_connect(found_tag => sub {
-    my ($tagger, $source, $tags) = @_;
+  my ($source, $decoder) =
+    GStreamer::ElementFactory -> make(filesrc => "source",
+                                      decodebin => "decoder");
 
-    foreach (qw(artist title album)) {
-      if (exists $tags -> { $_ }) {
-        $done = 1;
-        $xml -> get_widget("entry_$_") -> set_text($tags -> { $_ } -> [0]);
-      }
-    }
-  });
+  $pipeline -> add($source, $decoder);
+  $source -> link($decoder);
 
-  $source -> link($tagger) or die "Could not link";
-  $pipeline -> add($source, $tagger);
+  my $loop = Glib::MainLoop -> new(undef, FALSE);
+
+  $source -> set(location => Glib::filename_to_unicode $file);
+  $pipeline -> get_bus() -> add_watch(\&my_bus_callback, $loop);
+
   $pipeline -> set_state("playing") or die "Could not start playing";
-
-  while (!$done) {
-    last if (!$pipeline -> iterate());
-  }
-
+  $loop -> run();
   $pipeline -> set_state("null");
 }
 
 sub on_save_clicked {
   my $chooser = $xml -> get_widget("chooser");
+
+  warn "Saving doesn't work yet";
+  return;
 
   my $file = $chooser -> get_filename();
 
@@ -63,8 +86,8 @@ sub on_save_clicked {
   my $backup = $file . ".bak";
   rename $file, $backup;
 
-  $source -> set(location => $backup);
-  $sink -> set(location => $file);
+  $source -> set(location => Glib::filename_to_unicode $backup);
+  $sink -> set(location => Glib::filename_to_unicode $file);
 
   $tagger -> set_tag_merge_mode("keep");
 

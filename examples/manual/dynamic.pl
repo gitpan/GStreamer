@@ -1,10 +1,10 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Glib qw(TRUE FALSE);
+use Glib qw(TRUE FALSE filename_to_unicode);
 use GStreamer qw(-init GST_RANK_MARGINAL);
 
-# $Id: dynamic.pl,v 1.2 2005/03/25 18:26:18 kaffeetisch Exp $
+# $Id: dynamic.pl,v 1.3 2005/12/03 00:28:13 kaffeetisch Exp $
 
 my ($pipeline, @factories);
 
@@ -180,8 +180,8 @@ unless ($#ARGV == 0) {
 }
 
 # pipeline
-$pipeline = GStreamer::Parse::launch(
-  sprintf qq(filesrc location="%s" ! typefind name=tf), $ARGV[0]);
+$pipeline = GStreamer::parse_launch(
+  sprintf qq(filesrc location="%s" ! typefind name=tf), filename_to_unicode $ARGV[0]);
 $pipeline -> signal_connect(error => \&cb_error);
 
 my $typefind = $pipeline -> get_by_name("tf");

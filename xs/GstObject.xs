@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstObject.xs,v 1.1 2005/03/23 20:47:17 kaffeetisch Exp $
+ * $Id: GstObject.xs,v 1.2 2005/12/03 00:28:13 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -28,22 +28,32 @@ BOOT:
 	gperl_register_sink_func (GST_TYPE_OBJECT,
 	                          (GPerlObjectSinkFunc) gst_object_sink);
 
-void gst_object_set_name (GstObject *object, const gchar *name);
+void gst_object_set_name (GstObject *object, const gchar_ornull *name);
 
-const gchar * gst_object_get_name (GstObject *object);
+gchar_ornull * gst_object_get_name (GstObject *object)
+    CLEANUP:
+	g_free (RETVAL);
+
+void gst_object_set_name_prefix	(GstObject *object, const gchar_ornull *name_prefix);
+
+gchar_ornull * gst_object_get_name_prefix (GstObject *object)
+    CLEANUP:
+	g_free (RETVAL);
 
 void gst_object_set_parent (GstObject *object, GstObject *parent);
 
-GstObject * gst_object_get_parent (GstObject *object);
+GstObject_ornull * gst_object_get_parent (GstObject *object);
 
 void gst_object_unparent (GstObject *object);
 
-# FIXME
-# void gst_object_default_deep_notify (GObject *object, GstObject *orig, GParamSpec *pspec, gchar **excluded_props);
-# gboolean gst_object_check_uniqueness (GList *list, const gchar *name);
-# void gst_object_replace (GstObject **oldobj, GstObject *newobj);
-
-gchar * gst_object_get_path_string (GstObject *object);
+gboolean gst_object_has_ancestor (GstObject *object, GstObject *ancestor);
 
 # FIXME?
+# void gst_object_default_deep_notify (GObject *object, GstObject *orig, GParamSpec *pspec, gchar **excluded_props);
+# void gst_object_replace (GstObject **oldobj, GstObject *newobj);
+
+gchar_own * gst_object_get_path_string (GstObject *object);
+
+# FIXME?
+# gboolean gst_object_check_uniqueness (GList *list, const gchar *name);
 # guint gst_class_signal_connect (GstObjectClass *klass, const gchar *name, gpointer func, gpointer func_data);

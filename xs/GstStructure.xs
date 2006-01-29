@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstStructure.xs,v 1.2 2005/06/20 20:58:04 kaffeetisch Exp $
+ * $Id: GstStructure.xs,v 1.3 2005/12/03 00:28:13 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -91,7 +91,7 @@ SvGstStructure (SV *sv)
 
 static gboolean
 fill_av (GQuark field_id,
-         GValue *value,
+         const GValue *value,
          gpointer user_data)
 {
 	AV *fields = (AV *) user_data;
@@ -115,7 +115,7 @@ fill_av (GQuark field_id,
 }
 
 SV *
-newSVGstStructure (GstStructure *structure)
+newSVGstStructure (const GstStructure *structure)
 {
 	HV *hv;
 	AV *av;
@@ -173,3 +173,4 @@ gst_structure_from_string (string)
 	EXTEND (sp, 2);
 	PUSHs (sv_2mortal (newSVGstStructure (structure)));
 	PUSHs (sv_2mortal (newSVGChar (end)));
+	gst_structure_free (structure);

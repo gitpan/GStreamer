@@ -1,32 +1,22 @@
-# $Id: TODO,v 1.2 2005/06/20 20:57:27 kaffeetisch Exp $
+# $Id: TODO,v 1.4 2005/12/04 18:56:37 kaffeetisch Exp $
 
 Stuff that still needs some love:
 
-* Make GStreamer::Buffer / GStreamer::Data more robust.  Find out if enough of
-the related macros are bound.
-
-* Figure out whether to bind the stuff in GStreamer::Query and in
-GStreamer::Format as function or as class static methods.  Also reconsider the
-way GStreamer::Structure::to_string and ::from_string,
-GStreamer::Caps::to_string and ::from_string, and GStreamer::Parse::launch are
-bound.
+* Make GStreamer::Buffer more robust.  Find out if enough of the related macros
+are bound.
 
 * Wrap missing API.  Many macros are not bound and need to be either exported
-or worked around.  Missing xsubs are mostly marked with FIXMEs.
-GStreamer::Error probably needs more accessors.  Completely or nearly
-completely unbound headers include:
-  - gstatomic.h
-  - gstcpu.h
-  - gstevent.h
+or worked around.  Missing xsubs are mostly marked with FIXMEs.  Completely or
+nearly completely unbound headers include:
   - gstfilter.h
   - gstinterface.h
-  - gstmemchunk.h
-  - gstpadlist.h
-  - gstprobe.h
-  - gstsystemclock.h
+  - gstsegment.h
+  - gsttask.h
   - gsttrace.h
-  - gsttrashstack.h
+  - gsttypefind.h
   - gsturi.h
+  - gsturitype.h
+  - gstutils.h
   - gstvalue.h
   - gstxml.h
 
