@@ -6,12 +6,12 @@ use warnings;
 use ExtUtils::MakeMaker;
 use Cwd qw(cwd);
 
-# $Id: Makefile.PL,v 1.7 2006/01/24 19:53:19 kaffeetisch Exp $
+# $Id: Makefile.PL,v 1.8 2006/03/21 22:34:34 kaffeetisch Exp $
 
 our %build_reqs = (
   'perl-ExtUtils-Depends'   => '0.205',
   'perl-ExtUtils-PkgConfig' => '1.07',
-  'perl-Glib'               => '1.114',
+  'perl-Glib'               => '1.120',
   'GStreamer'               => '0.10.0',
 );
 

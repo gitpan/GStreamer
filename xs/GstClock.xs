@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstClock.xs,v 1.5 2005/12/03 00:28:13 kaffeetisch Exp $
+ * $Id: GstClock.xs,v 1.6 2006/03/21 22:29:26 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -100,7 +100,9 @@ gst2perl_clock_callback (GstClock *clock,
 	EXTEND (SP, 3);
 	PUSHs (sv_2mortal (newSVGstClock (clock)));
 	PUSHs (sv_2mortal (newSVGstClockTime (time)));
-	PUSHs (sv_2mortal (newSVGstClockID (id)));
+	/* We need to keep the clock id alive so we ref it to counter DESTROY's
+	 * unref */
+	PUSHs (sv_2mortal (newSVGstClockID (gst_clock_id_ref (id))));
 	if (callback->data)
 		XPUSHs (sv_2mortal (newSVsv (callback->data)));
 
