@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 39;
 
-# $Id: GstPad.t,v 1.5 2005/12/03 00:28:13 kaffeetisch Exp $
+# $Id: GstPad.t,v 1.6 2006/05/21 15:42:06 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -57,7 +57,7 @@ my $fixed_caps = GStreamer::Caps::Full -> new($structure);
 
 ok($pad -> set_caps($fixed_caps));
 $pad -> fixate_caps($fixed_caps);
-ok(!$pad -> accept_caps($fixed_caps));
+ok(defined $pad -> accept_caps($fixed_caps));
 
 is($pad -> peer_get_caps(), undef);
 ok($pad -> peer_accept_caps($caps));

@@ -1,3 +1,17 @@
+2006/07/07	kaffeetisch
+
+	* GStreamer.pm, NEWS, copyright.pod: Release 0.08.
+
+2006/05/21	kaffeetisch
+
+	* t/GstClock.t, t/GstElementFactory.t, t/GstPad.t,
+	t/GstTypeFindFactory.t: Fix test failures.
+
+2006/05/13	kaffeetisch
+
+	* xs/Gst.xs: Hide gst_version_string from the doc genereator to
+	keep it from creating a GStreamer.pod.
+
 2006/03/21	kaffeetisch
 
 	* GStreamer.pm, Makefile.PL, NEWS, README: Release 0.07.

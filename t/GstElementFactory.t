@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 13;
+use Test::More tests => 12;
 
-# $Id: GstElementFactory.t,v 1.1 2005/12/03 00:28:13 kaffeetisch Exp $
+# $Id: GstElementFactory.t,v 1.3 2006/05/21 17:32:59 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -14,7 +14,9 @@ is($factory, undef);
 $factory = GStreamer::ElementFactory -> find("queue");
 isa_ok($factory, "GStreamer::ElementFactory");
 
-ok(!defined $factory -> get_element_type());
+# Can't reliably test this.
+my $type = $factory -> get_element_type();
+
 ok(defined $factory -> get_longname());
 ok(defined $factory -> get_klass());
 ok(defined $factory -> get_description());

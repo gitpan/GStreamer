@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: Gst.xs,v 1.5 2005/12/03 00:28:13 kaffeetisch Exp $
+ * $Id: Gst.xs,v 1.6 2006/05/13 16:00:45 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -68,6 +68,8 @@ gst_version (class)
 	PUSHs (sv_2mortal (newSVuv (micro)));
 	PUSHs (sv_2mortal (newSVuv (nano)));
 
+=for apidoc __hide__
+=cut
 # gchar * gst_version_string (void);
 gchar_own *
 gst_version_string (class)

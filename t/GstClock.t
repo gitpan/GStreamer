@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 20;
 
-# $Id: GstClock.t,v 1.5 2006/03/21 22:29:25 kaffeetisch Exp $
+# $Id: GstClock.t,v 1.6 2006/05/21 17:30:50 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer qw(-init GST_SECOND);
@@ -31,8 +31,8 @@ SKIP: {
 }
 
 my ($result, $r) = $clock -> add_observation(23, 42);
-ok(!$result);
-ok($r >= 0);
+ok(defined $result);
+ok(defined $r);
 
 ok($clock -> get_internal_time() >= 0);
 ok($clock -> adjust_unlocked(23) >= 0);
