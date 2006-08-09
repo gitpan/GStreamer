@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 16;
+use Test::More tests => 13;
 
-# $Id: Gst.t,v 1.3 2005/12/03 00:28:13 kaffeetisch Exp $
+# $Id: Gst.t,v 1.4 2006/08/06 18:58:57 kaffeetisch Exp $
 
 use_ok("GStreamer", qw(
   GST_SECOND
@@ -41,13 +41,14 @@ GStreamer -> init();
 
 # --------------------------------------------------------------------------- #
 
-my $element = GStreamer::parse_launch(qq(filesrc location="$0" ! oggdemux ! vorbisdec ! audioconvert ! audioscale ! alsasink));
+my $element = GStreamer::parse_launch(qq(filesrc location="$0" ! filesink location="$0.bak"));
 isa_ok($element, "GStreamer::Element");
 
-eval { $element = GStreamer::parse_launch(qq(!!)); };
-isa_ok($@, "GStreamer::ParseError");
-is($@ -> { domain }, "gst_parse_error");
-is($@ -> { value }, "syntax");
+# Commented since they're too loud.
+# eval { $element = GStreamer::parse_launch(qq(!!)); };
+# isa_ok($@, "GStreamer::ParseError");
+# is($@ -> { domain }, "gst_parse_error");
+# is($@ -> { value }, "syntax");
 
 # --------------------------------------------------------------------------- #
 

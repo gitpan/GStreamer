@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstBuffer.xs,v 1.4 2005/12/03 00:28:13 kaffeetisch Exp $
+ * $Id: GstBuffer.xs,v 1.5 2006/07/17 09:06:33 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -99,7 +99,7 @@ gst_buffer_set_data (buf, data)
     CODE:
 	/* FIXME: Hot to get rid of the leak? */
 	gst_buffer_set_data (buf,
-	                     (guchar *) strndup (SvPV_nolen (data), length),
+	                     (guchar *) g_strndup (SvPV_nolen (data), length),
 	                     length);
 
 GstCaps_own_ornull * gst_buffer_get_caps (GstBuffer *buffer);

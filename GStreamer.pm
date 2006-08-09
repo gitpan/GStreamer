@@ -1,6 +1,6 @@
 package GStreamer;
 
-# $Id: GStreamer.pm,v 1.12 2006/07/07 21:59:58 kaffeetisch Exp $
+# $Id: GStreamer.pm,v 1.13 2006/08/09 18:16:11 kaffeetisch Exp $
 
 use 5.008;
 use strict;
@@ -28,7 +28,7 @@ our @EXPORT_OK = qw(
 
 # --------------------------------------------------------------------------- #
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 sub import {
   my ($self) = @_;

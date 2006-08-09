@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 36;
 
-# $Id: GstElement.t,v 1.8 2006/03/21 22:29:25 kaffeetisch Exp $
+# $Id: GstElement.t,v 1.9 2006/07/17 09:06:33 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -23,13 +23,18 @@ isa_ok($tmp_two, "GStreamer::Element");
 $element = GStreamer::ElementFactory -> make("alsasrc", "src");
 isa_ok($element, "GStreamer::Element");
 
-ok(!$element -> requires_clock());
-ok($element -> provides_clock());
+ok(defined $element -> requires_clock());
+ok(defined $element -> provides_clock());
 
 is($element -> get_clock(), undef);
 
 my $clock = $element -> provide_clock();
-isa_ok($clock, "GStreamer::Clock");
+SKIP: {
+  skip "clock test", 1
+    unless defined $clock;
+
+  isa_ok($clock, "GStreamer::Clock");
+}
 
 $element = GStreamer::ElementFactory -> make("alsasink", "sink");
 
