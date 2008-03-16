@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstStructure.xs,v 1.3 2005/12/03 00:28:13 kaffeetisch Exp $
+ * $Id: GstStructure.xs,v 1.4 2006/08/26 18:05:28 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -162,15 +162,15 @@ gchar_own * gst_structure_to_string (const GstStructure *structure);
 =for apidoc __function__
 =cut
 # GstStructure * gst_structure_from_string (const gchar *string, gchar **end);
-void
+GstStructure *
 gst_structure_from_string (string)
 	const gchar *string
     PREINIT:
 	gchar *end = NULL;
-	GstStructure *structure;
-    PPCODE:
-	structure = gst_structure_from_string (string, &end);
-	EXTEND (sp, 2);
-	PUSHs (sv_2mortal (newSVGstStructure (structure)));
-	PUSHs (sv_2mortal (newSVGChar (end)));
-	gst_structure_free (structure);
+    CODE:
+	RETVAL = gst_structure_from_string (string, &end);
+    OUTPUT:
+	RETVAL
+    CLEANUP:
+	if (RETVAL)
+		gst_structure_free (RETVAL);

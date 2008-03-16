@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstElement.xs,v 1.12 2006/01/24 19:53:20 kaffeetisch Exp $
+ * $Id: GstElement.xs,v 1.13 2006/08/27 18:29:45 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -48,7 +48,7 @@ gboolean gst_element_is_indexable (GstElement *element);
 
 void gst_element_set_index (GstElement *element, GstIndex *index);
 
-GstIndex* gst_element_get_index (GstElement *element);
+GstIndex_ornull* gst_element_get_index (GstElement *element);
 
 # Docs say "for internal use only".
 # void gst_element_set_bus (GstElement * element, GstBus * bus);
@@ -144,7 +144,12 @@ gst_element_get_query_types (element)
 
 gboolean gst_element_query (GstElement *element, GstQuery *query);
 
-gboolean gst_element_post_message (GstElement * element, GstMessage * message);
+# gboolean gst_element_post_message (GstElement * element, GstMessage * message);
+gboolean
+gst_element_post_message (GstElement * element, GstMessage * message)
+    C_ARGS:
+	/* element takes ownership of message. */
+	element, gst_message_ref (message)
 
 void gst_element_found_tags (GstElement *element, GstTagList *tag_list);
 

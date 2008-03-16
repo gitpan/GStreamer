@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstMessage.xs,v 1.3 2005/12/19 00:26:44 kaffeetisch Exp $
+ * $Id: GstMessage.xs,v 1.5 2008/01/19 16:23:15 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -102,8 +102,25 @@ get_package (GstMessage *message)
 		package = "GStreamer::Message::Duration";
 		break;
 
+#if GST_CHECK_VERSION (0, 10, 12)
+	    case GST_MESSAGE_LATENCY:
+		package = "GStreamer::Message::Latency";
+		break;
+#endif
+
+#if GST_CHECK_VERSION (0, 10, 13)
+	    case GST_MESSAGE_ASYNC_START:
+		package = "GStreamer::Message::AsyncStart";
+		break;
+
+	    case GST_MESSAGE_ASYNC_DONE:
+		package = "GStreamer::Message::AsyncDone";
+		break;
+#endif
+
 	    case GST_MESSAGE_UNKNOWN:
 	    case GST_MESSAGE_ANY:
+		/* Use the default package name */
 		break;
 	}
 
@@ -134,6 +151,9 @@ BOOT:
 	gperl_set_isa ("GStreamer::Message::SegmentStart", "GStreamer::Message");
 	gperl_set_isa ("GStreamer::Message::SegmentDone", "GStreamer::Message");
 	gperl_set_isa ("GStreamer::Message::Duration", "GStreamer::Message");
+	gperl_set_isa ("GStreamer::Message::Latency", "GStreamer::Message");
+	gperl_set_isa ("GStreamer::Message::AsyncStart", "GStreamer::Message");
+	gperl_set_isa ("GStreamer::Message::AsyncDone", "GStreamer::Message");
 	gst2perl_register_mini_object_package_lookup_func (
 		GST_TYPE_MESSAGE,
 		(Gst2PerlMiniObjectPackageLookupFunc) get_package);
@@ -184,6 +204,12 @@ The various nmessage types are represented as subclasses:
 
 =item GStreamer::Message::Duration
 
+=item GStreamer::Message::Latency [0.10.12]
+
+=item GStreamer::Message::AsyncStart [0.10.13]
+
+=item GStreamer::Message::AsyncDone [0.10.13]
+
 =back
 
 To create a new message, you call the constructor of the corresponding class.
@@ -226,6 +252,20 @@ GstMessageType
 type (GstMessage *message)
     CODE:
 	RETVAL = GST_MESSAGE_TYPE (message);
+    OUTPUT:
+	RETVAL
+
+guint64
+timestamp (GstMessage *message)
+    CODE:
+	RETVAL = GST_MESSAGE_TIMESTAMP (message);
+    OUTPUT:
+	RETVAL
+
+GstObject *
+src (GstMessage *message)
+    CODE:
+	RETVAL = GST_MESSAGE_SRC (message);
     OUTPUT:
 	RETVAL
 
@@ -625,3 +665,60 @@ format (GstMessage *message)
 	}
     OUTPUT:
 	RETVAL
+
+# --------------------------------------------------------------------------- #
+
+MODULE = GStreamer::Message	PACKAGE = GStreamer::Message::Latency
+
+#if GST_CHECK_VERSION (0, 10, 12)
+
+# GstMessage * gst_message_new_latency (GstObject * src);
+GstMessage_noinc *
+new (class, GstObject * src)
+    CODE:
+	RETVAL = gst_message_new_latency (src);
+    OUTPUT:
+	RETVAL
+
+#endif
+
+# --------------------------------------------------------------------------- #
+
+MODULE = GStreamer::Message	PACKAGE = GStreamer::Message::AsyncStart
+
+#if GST_CHECK_VERSION (0, 10, 13)
+
+# GstMessage * gst_message_new_async_start (GstObject * src, gboolean new_base_time);
+GstMessage_noinc *
+new (class, GstObject * src, gboolean new_base_time)
+    CODE:
+	RETVAL = gst_message_new_async_start (src, new_base_time);
+    OUTPUT:
+	RETVAL
+
+# void gst_message_parse_async_start (GstMessage *message, gboolean *new_base_time);
+
+gboolean
+new_base_time (GstMessage *message)
+    CODE:
+	gst_message_parse_async_start (message, &RETVAL);
+    OUTPUT:
+	RETVAL
+
+#endif
+
+# --------------------------------------------------------------------------- #
+
+MODULE = GStreamer::Message	PACKAGE = GStreamer::Message::AsyncDone
+
+#if GST_CHECK_VERSION (0, 10, 13)
+
+# GstMessage * gst_message_new_async_done (GstObject * src);
+GstMessage_noinc *
+new (class, GstObject * src)
+    CODE:
+	RETVAL = gst_message_new_async_done (src);
+    OUTPUT:
+	RETVAL
+
+#endif

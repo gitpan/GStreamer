@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 15;
 
-# $Id: GstIndex.t,v 1.2 2005/12/03 00:28:13 kaffeetisch Exp $
+# $Id: GstIndex.t,v 1.3 2008/03/16 11:52:26 kaffeetisch Exp $
 
 use GStreamer -init;
 
@@ -48,7 +48,7 @@ $entry = $index -> add_object(25, "urgs", $object);
 is($entry, undef);
 
 $entry = $index -> add_id(26, "sgru");
-isa_ok($entry, , "GStreamer::IndexEntry");
+isa_ok($entry, "GStreamer::IndexEntry");
 
 $entry = $index -> get_assoc_entry(24, "exact", "key-unit", bytes => 12);
 is($entry, undef);

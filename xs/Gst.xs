@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: Gst.xs,v 1.6 2006/05/13 16:00:45 kaffeetisch Exp $
+ * $Id: Gst.xs,v 1.8 2008/03/16 11:57:37 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -25,6 +25,9 @@ MODULE = GStreamer	PACKAGE = GStreamer	PREFIX = gst_
 BOOT:
 #include "register.xsh"
 #include "boot.xsh"
+	/* FIXME: This seems to have no effect since libgstreamer installs its
+	 * own log handler.  Since it's installed later, it seems to be
+	 * preferred, so our's is never actually invoked. */
 	gperl_handle_logs_for ("GStreamer");
 
 # --------------------------------------------------------------------------- #
@@ -35,9 +38,16 @@ void
 GET_VERSION_INFO (class)
     PPCODE:
 	EXTEND (SP, 3);
+	/* 0.10.17 provides these macros, but with a different name. */
+#if GST_CHECK_VERSION (0, 10, 17)
+	PUSHs (sv_2mortal (newSViv (GST_VERSION_MAJOR)));
+	PUSHs (sv_2mortal (newSViv (GST_VERSION_MINOR)));
+	PUSHs (sv_2mortal (newSViv (GST_VERSION_MICRO)));
+#else
 	PUSHs (sv_2mortal (newSViv (GST_MAJOR_VERSION)));
 	PUSHs (sv_2mortal (newSViv (GST_MINOR_VERSION)));
 	PUSHs (sv_2mortal (newSViv (GST_MICRO_VERSION)));
+#endif
 	PERL_UNUSED_VAR (ax);
 
 =for apidoc __hide__

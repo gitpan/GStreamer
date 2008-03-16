@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstIterator.xs,v 1.2 2005/12/04 18:56:41 kaffeetisch Exp $
+ * $Id: GstIterator.xs,v 1.3 2006/12/02 16:37:31 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -45,7 +45,7 @@ newSVGstIterator (const GstIterator *iter)
 	 * FETCHSIZE and FETCH look for it in the dummy. */
 	sv_magic ((SV *) dummy, 0, PERL_MAGIC_ext, (const char *) iter, 0);
 	sv_magic ((SV *) av, 0, PERL_MAGIC_ext, (const char *) iter, 0);
-	sv_magic ((SV *) av, tie, PERL_MAGIC_tied, "", 0);
+	sv_magic ((SV *) av, tie, PERL_MAGIC_tied, Nullch, 0);
 
 	return ref;
 }
@@ -184,7 +184,7 @@ gst_iterator_next (iter)
 MODULE = GStreamer::Iterator	PACKAGE = GStreamer::Iterator::Tie
 
 IV
-FETCHSIZE (GstIterator *iter, i_do_not_care_what_this_undocumented_second_argument_is)
+FETCHSIZE (GstIterator *iter)
     PREINIT:
 	gboolean done = FALSE;
 	gpointer item;

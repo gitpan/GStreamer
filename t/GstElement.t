@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 36;
 
-# $Id: GstElement.t,v 1.9 2006/07/17 09:06:33 kaffeetisch Exp $
+# $Id: GstElement.t,v 1.11 2008/01/19 16:31:43 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -43,7 +43,7 @@ $element -> set_clock($clock);
 $element -> set_base_time(23);
 is($element -> get_base_time(), 23);
 
-$element -> set_state("playing");
+$element -> set_state("ready");
 
 $element -> no_more_pads();
 
@@ -100,7 +100,7 @@ ok(!$element_one -> link_pads("urgs", $element_two, "urgs"));
 ok(!$element_three -> link_pads_filtered("urgs", $element_four, "urgs", $caps));
 $element_three -> unlink_pads("urgs", $element_four, "urgs");
 
-ok(!$element -> send_event(GStreamer::Event::EOS -> new()));
+ok(defined $element -> send_event(GStreamer::Event::EOS -> new()));
 
 ok(!$element -> seek(1.0, "default", [qw(flush accurate)], "cur", 23, "set", 42));
 

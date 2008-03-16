@@ -6,12 +6,12 @@ use warnings;
 use ExtUtils::MakeMaker;
 use Cwd qw(cwd);
 
-# $Id: Makefile.PL,v 1.8 2006/03/21 22:34:34 kaffeetisch Exp $
+# $Id: Makefile.PL,v 1.10 2008/03/16 12:00:58 kaffeetisch Exp $
 
 our %build_reqs = (
   'perl-ExtUtils-Depends'   => '0.205',
   'perl-ExtUtils-PkgConfig' => '1.07',
-  'perl-Glib'               => '1.120',
+  'perl-Glib'               => '1.180',
   'GStreamer'               => '0.10.0',
 );
 
@@ -60,8 +60,6 @@ sub gen_object_stuff {
 gperl_register_object ($typemacro, "$package");
 #endif /* $typemacro */
 EOT
-
-    my $get_wrapper = 'gtk2perl_new_gtkobject (GTK_OBJECT (val))';
 
     Glib::CodeGen::add_header(<<"EOT");
 #ifdef $typemacro
@@ -133,6 +131,9 @@ $gst->install(qw(gst2perl.h
                  doctypes));
 $gst->save_config('build/IFiles.pm');
 
+my $configure_requires =
+  Glib::MakeHelper->get_configure_requires_yaml(%pre_reqs);
+
 WriteMakefile(
   NAME          => 'GStreamer',
   VERSION_FROM  => 'GStreamer.pm',
@@ -140,7 +141,12 @@ WriteMakefile(
   PREREQ_PM     => \%pre_reqs,
   XSPROTOARG    => '-noprototypes',
   MAN3PODS      => \%pod_files,
+
   $gst->get_makefile_vars,
+
+  EXTRA_META    => qq/
+$configure_requires
+/,
 );
 
 sub MY::postamble {

@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: gst2perl.h,v 1.7 2005/12/19 00:26:40 kaffeetisch Exp $
+ * $Id: gst2perl.h,v 1.8 2008/03/16 11:57:35 kaffeetisch Exp $
  */
 
 #ifndef _GST2PERL_H_
@@ -25,7 +25,11 @@
 
 #include <gst/gst.h>
 
-#include "gst2perl-version.h"
+/* Starting with 0.10.17, libgstreamer provides this macro. */
+#ifndef GST_CHECK_VERSION
+# include "gst2perl-version.h"
+#endif
+
 #include "gst2perl-autogen.h"
 
 /* GstMiniObject support. */

@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use Test::More tests => 8;
+use Test::More tests => 9;
 
-# $Id: GstStructure.t,v 1.2 2005/12/03 00:28:13 kaffeetisch Exp $
+# $Id: GstStructure.t,v 1.4 2008/01/19 16:31:46 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -36,8 +36,14 @@ is_deeply($caps -> get_structure(1), $structure_two);
 my $string_one = GStreamer::Structure::to_string($structure_one);
 my $string_two = GStreamer::Structure::to_string($structure_two);
 
+# remove trailing semicolon that start to appear sometime in the past
+$string_one =~ s/;\Z//;
+$string_two =~ s/;\Z//;
+
 is($string_one, "urgs, field_one=(string)urgs, field_two=(int)23");
 is($string_two, "sgru, field_one=(string)sgru, field_two=(int)42");
 
+is_deeply(GStreamer::Structure::from_string($string_one), $structure_one);
+is_deeply(GStreamer::Structure::from_string($string_two), $structure_two);
+
 is_deeply((GStreamer::Structure::from_string($string_one))[0], $structure_one);
-is_deeply((GStreamer::Structure::from_string($string_two))[0], $structure_two);

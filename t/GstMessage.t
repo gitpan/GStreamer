@@ -2,9 +2,9 @@
 use strict;
 use warnings;
 use Glib qw(TRUE FALSE);
-use Test::More tests => 70;
+use Test::More tests => 82;
 
-# $Id: GstMessage.t,v 1.3 2006/07/17 09:06:33 kaffeetisch Exp $
+# $Id: GstMessage.t,v 1.5 2008/01/19 16:23:13 kaffeetisch Exp $
 
 use GStreamer -init;
 
@@ -18,6 +18,8 @@ isa_ok($message, "GStreamer::Message");
 isa_ok($message, "GStreamer::MiniObject");
 
 ok($message -> type() & "eos");
+ok(defined $message -> timestamp());
+is($message -> src(), $src);
 
 # --------------------------------------------------------------------------- #
 
@@ -160,6 +162,37 @@ isa_ok($message, "GStreamer::MiniObject");
 
 is($message -> format(), "time");
 is($message -> duration(), 23);
+
+# --------------------------------------------------------------------------- #
+
+SKIP: {
+  skip 'latency', 3
+    unless GStreamer -> CHECK_VERSION(0, 10, 12);
+
+  $message = GStreamer::Message::Latency -> new($src);
+  isa_ok($message, "GStreamer::Message::Latency");
+  isa_ok($message, "GStreamer::Message");
+  isa_ok($message, "GStreamer::MiniObject");
+}
+
+# --------------------------------------------------------------------------- #
+
+SKIP: {
+  skip 'async start & done', 7
+    unless GStreamer -> CHECK_VERSION(0, 10, 13);
+
+  $message = GStreamer::Message::AsyncStart -> new($src, TRUE);
+  isa_ok($message, "GStreamer::Message::AsyncStart");
+  isa_ok($message, "GStreamer::Message");
+  isa_ok($message, "GStreamer::MiniObject");
+
+  is($message -> new_base_time, TRUE);
+
+  $message = GStreamer::Message::AsyncDone -> new($src);
+  isa_ok($message, "GStreamer::Message::AsyncDone");
+  isa_ok($message, "GStreamer::Message");
+  isa_ok($message, "GStreamer::MiniObject");
+}
 
 # --------------------------------------------------------------------------- #
 
