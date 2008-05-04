@@ -3,19 +3,24 @@ use strict;
 use warnings;
 use Test::More tests => 5;
 
-# $Id: GstPluginFeature.t,v 1.2 2005/12/03 00:28:13 kaffeetisch Exp $
+# $Id: GstPluginFeature.t,v 1.3 2008/03/23 16:49:29 kaffeetisch Exp $
 
 use GStreamer -init;
 
 my $feature = GStreamer::ElementFactory -> find("alsasink");
-isa_ok($feature, "GStreamer::PluginFeature");
+SKIP: {
+  skip 'failed to load alsasink', 5
+    unless defined $feature;
 
-isa_ok($feature = $feature -> load(), "GStreamer::PluginFeature");
+  isa_ok($feature, "GStreamer::PluginFeature");
 
-$feature -> set_rank(23);
-is($feature -> get_rank(), 23);
+  isa_ok($feature = $feature -> load(), "GStreamer::PluginFeature");
 
-$feature -> set_name("alsasink");
-is($feature -> get_name(), "alsasink");
+  $feature -> set_rank(23);
+  is($feature -> get_rank(), 23);
 
-ok($feature -> check_version(0, 0, 0));
+  $feature -> set_name("alsasink");
+  is($feature -> get_name(), "alsasink");
+
+  ok($feature -> check_version(0, 0, 0));
+}

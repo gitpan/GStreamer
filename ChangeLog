@@ -1,3 +1,48 @@
+2008-05-04  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* GStreamer.pm
+	* NEWS: Release 0.11.
+
+2008-05-04  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* t/GstPad.t: Skip the task tests for now: they cause a segfault
+	as threading support isn't there yet.
+
+	* xs/GstQuery.xs (get_package): Add a default branch to the type
+	switch to avoid compilation errors when a new type is introduced
+	and to explicitly codify the behavior for unknown types.
+
+	* t/GstRegistry.t: Fix test failures related to the XML cache.
+
+2008-03-23  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* t/GstBin.t
+	* t/GstChildProxy.t
+	* t/GstClock.t
+	* t/GstElement.t
+	* t/GstIndex.t
+	* t/GstIterator.t
+	* t/GstMessage.t
+	* t/GstPlugin.t
+	* t/GstPluginFeature.t
+	* t/GstRegistry.t: Make the tests work when gstreamer doesn't have
+	alsa plugins, as for example on some BSDs.
+
+	* xs/GstBus.xs
+	* xs/GstClock.xs
+	* xs/GstIndex.xs
+	* xs/GstStructure.xs: Fix compiler warnings.
+
+	* xs/GstMiniObject.xs (gst2perl_register_mini_object): Actually
+	make real a string comparison to determine which packages' @ISA to
+	modify.
+
+	* xs/GstPad.xs: Fix the GstTaskFunc marshalling.
+
+	* Makefile.PL: Trap exceptions thrown by EU::PkgConfig->find.
+	When one occurs, exit with status 0 to indicate to CPAN testers
+	that their system isn't supported.
+
 2008-03-16  Torsten Schoenfeld  <kaffeetisch@gmx.de>
 
 	* GStreamer.pm

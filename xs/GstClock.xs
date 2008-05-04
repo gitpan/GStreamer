@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstClock.xs,v 1.6 2006/03/21 22:29:26 kaffeetisch Exp $
+ * $Id: GstClock.xs,v 1.7 2008/03/23 16:49:31 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -87,9 +87,10 @@ gst2perl_clock_callback (GstClock *clock,
                          gpointer user_data)
 {
 	gboolean retval;
+	GPerlCallback *callback;
 	dGPERL_CALLBACK_MARSHAL_SP;
 
-	GPerlCallback *callback = user_data;
+	callback = user_data;
 	GPERL_CALLBACK_MARSHAL_INIT (callback);
 
 	ENTER;

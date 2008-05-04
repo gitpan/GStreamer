@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 21;
 
-# $Id: GstRegistry.t,v 1.5 2007/01/31 19:04:48 kaffeetisch Exp $
+# $Id: GstRegistry.t,v 1.7 2008/05/04 12:01:57 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -13,12 +13,6 @@ isa_ok($registry, "GStreamer::Registry");
 
 $registry -> scan_path(".");
 is_deeply([$registry -> get_path_list()], []);
-
-my $plugin = GStreamer::Plugin::load_by_name("alsa");
-ok($registry -> add_plugin($plugin));
-
-my $feature = GStreamer::ElementFactory -> find("alsasink");
-ok($registry -> add_feature($feature));
 
 isa_ok(($registry -> get_plugin_list())[0], "GStreamer::Plugin");
 
@@ -57,9 +51,21 @@ isa_ok($registry -> find_feature("volume", "GStreamer::ElementFactory"), "GStrea
 is($registry -> lookup("..."), undef);
 is($registry -> lookup_feature("..."), undef);
 
-ok($registry -> xml_write_cache("tmp"));
-ok($registry -> xml_read_cache("tmp"));
+# These can fail, so just test for definedness.
+ok(defined $registry -> xml_write_cache("tmp"));
+ok(defined $registry -> xml_read_cache("tmp"));
 unlink "tmp";
 
-$registry -> remove_feature($feature);
-$registry -> remove_plugin($plugin);
+my $plugin = GStreamer::Plugin::load_by_name("alsa");
+SKIP: {
+  skip 'failed to load alsa plugin', 2
+    unless defined $plugin;
+
+  ok($registry -> add_plugin($plugin));
+
+  my $feature = GStreamer::ElementFactory -> find("alsasink");
+  ok($registry -> add_feature($feature));
+
+  $registry -> remove_feature($feature);
+  $registry -> remove_plugin($plugin);
+}

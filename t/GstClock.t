@@ -3,16 +3,20 @@ use strict;
 use warnings;
 use Test::More tests => 20;
 
-# $Id: GstClock.t,v 1.7 2006/07/17 09:06:33 kaffeetisch Exp $
+# $Id: GstClock.t,v 1.8 2008/03/23 16:49:25 kaffeetisch Exp $
 
 use Glib qw(TRUE FALSE);
 use GStreamer qw(-init GST_SECOND);
 
 my $element = GStreamer::ElementFactory -> make("alsasrc", "src");
-my $clock = $element -> provide_clock();
 
 SKIP: {
-  skip "clock tests", 20
+  skip 'failed to create an alsasrc', 20
+    unless defined $element;
+
+  my $clock = $element -> provide_clock();
+
+  skip 'failed to find a clock', 20
     unless defined $clock;
 
   is($clock -> set_resolution(1000), 0);

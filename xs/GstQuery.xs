@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstQuery.xs,v 1.5 2005/12/19 00:26:44 kaffeetisch Exp $
+ * $Id: GstQuery.xs,v 1.6 2008/05/04 12:12:08 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -94,6 +94,10 @@ get_package (GstQuery *query)
 	    case GST_QUERY_NONE:
 		break;
 
+	    default:
+		/* Happens for dynamically registered types, for example.  Use
+		 * the standard package. */
+		break;
 	}
 
 	return package;

@@ -2,13 +2,19 @@
 use strict;
 use warnings;
 use Glib qw(TRUE FALSE);
-use Test::More tests => 82;
+use Test::More;
 
-# $Id: GstMessage.t,v 1.5 2008/01/19 16:23:13 kaffeetisch Exp $
+# $Id: GstMessage.t,v 1.6 2008/03/23 16:49:29 kaffeetisch Exp $
 
 use GStreamer -init;
 
 my $src = GStreamer::ElementFactory -> make(alsasrc => "urgs");
+
+if (not defined $src) {
+  plan skip_all => 'failed to create an alsasrc';
+} else {
+  plan tests => 82;
+}
 
 # --------------------------------------------------------------------------- #
 

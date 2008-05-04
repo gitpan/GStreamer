@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstIndex.xs,v 1.3 2005/12/03 00:28:13 kaffeetisch Exp $
+ * $Id: GstIndex.xs,v 1.4 2008/03/23 16:49:31 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -82,9 +82,10 @@ gst2perl_index_resolver (GstIndex *index,
 	int n;
 	SV *string;
 	gboolean retval;
+	GPerlCallback *callback;
 	dGPERL_CALLBACK_MARSHAL_SP;
 
-	GPerlCallback *callback = user_data;
+	callback = user_data;
 	GPERL_CALLBACK_MARSHAL_INIT (callback);
 
 	ENTER;

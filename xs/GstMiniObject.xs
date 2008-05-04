@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstMiniObject.xs,v 1.2 2005/12/19 00:26:44 kaffeetisch Exp $
+ * $Id: GstMiniObject.xs,v 1.3 2008/03/23 16:48:03 kaffeetisch Exp $
  */
 
 #include "gst2perl.h"
@@ -45,7 +45,8 @@ gst2perl_register_mini_object (GType type, const char *package)
 
 	G_UNLOCK (package_by_type);
 
-	if (package != "GStreamer::MiniObject")
+	if (0 != strncmp (package, "GStreamer::MiniObject",
+	      	 	  sizeof ("GStreamer::MiniObject")))
 		gperl_set_isa(package, "GStreamer::MiniObject");
 }
 
