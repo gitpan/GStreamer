@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstElement.xs,v 1.13 2006/08/27 18:29:45 kaffeetisch Exp $
+ * $Id: GstElement.xs 58 2006-08-27 18:29:45Z tsch $
  */
 
 #include "gst2perl.h"

@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use GStreamer -init;
 
-# $Id: elementfactory.pl,v 1.2 2005/12/03 00:28:13 kaffeetisch Exp $
+# $Id: elementfactory.pl 29 2005-12-03 00:28:13Z tsch $
 
 # get factory
 my $factory = GStreamer::ElementFactory -> find("audiotestsrc");

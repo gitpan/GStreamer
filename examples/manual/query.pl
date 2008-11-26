@@ -4,7 +4,7 @@ use warnings;
 use Glib qw(filename_to_unicode TRUE FALSE);
 use GStreamer qw(GST_SECOND GST_TIME_FORMAT GST_TIME_ARGS);
 
-# $Id: query.pl,v 1.3 2005/12/19 00:26:42 kaffeetisch Exp $
+# $Id: query.pl 34 2005-12-19 00:26:44Z tsch $
 
 # Turn off perl's output buffering.
 $|++;

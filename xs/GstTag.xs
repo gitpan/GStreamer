@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstTag.xs,v 1.2 2005/12/03 00:28:13 kaffeetisch Exp $
+ * $Id: GstTag.xs 88 2008-11-26 21:17:36Z tsch $
  */
 
 #include "gst2perl.h"
@@ -85,7 +85,7 @@ gst_tag_list_unwrap (GType gtype,
 			continue;
 
 		ref = hv_iterval (hv, he);
-		if (!(SvOK (ref) && SvROK (ref) && SvTYPE (SvRV (ref)) == SVt_PVAV))
+		if (!gperl_sv_is_array_ref (ref))
 			croak ("The values inside of GstTagList's have to be array references");
 
 		type = gst_tag_get_type (tag);
@@ -95,7 +95,7 @@ gst_tag_list_unwrap (GType gtype,
 			GValue value = { 0 };
 			SV **entry = av_fetch (av, i, 0);
 
-			if (!(entry && SvOK (*entry)))
+			if (!(entry && gperl_sv_is_defined (*entry)))
 				continue; /* FIXME: Why not croak here, too? */
 
 			g_value_init (&value, type);

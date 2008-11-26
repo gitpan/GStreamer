@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstEvent.xs,v 1.4 2005/12/19 00:26:44 kaffeetisch Exp $
+ * $Id: GstEvent.xs 34 2005-12-19 00:26:44Z tsch $
  */
 
 #include "gst2perl.h"

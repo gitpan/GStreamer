@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use GStreamer -init;
 
-# $Id: elementcreate.pl,v 1.1 2005/03/23 20:46:46 kaffeetisch Exp $
+# $Id: elementcreate.pl 2 2005-03-23 20:47:28Z tsch $
 
 # create element, method #2
 my $factory = GStreamer::ElementFactory -> find("fakesrc");

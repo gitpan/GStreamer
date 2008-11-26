@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use GStreamer -init;
 
-# $Id: bin.pl,v 1.1 2005/03/23 20:46:33 kaffeetisch Exp $
+# $Id: bin.pl 2 2005-03-23 20:47:28Z tsch $
 
 # create
 my $pipeline = GStreamer::Pipeline -> new("my_pipeline");

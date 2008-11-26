@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 2;
 
-# $Id: GstTypeFindFactory.t,v 1.2 2006/05/21 15:42:06 kaffeetisch Exp $
+# $Id: GstTypeFindFactory.t 47 2006-05-21 15:42:06Z tsch $
 
 use GStreamer -init;
 

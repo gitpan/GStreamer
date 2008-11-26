@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstClock.xs,v 1.7 2008/03/23 16:49:31 kaffeetisch Exp $
+ * $Id: GstClock.xs 75 2008-03-23 16:49:31Z tsch $
  */
 
 #include "gst2perl.h"

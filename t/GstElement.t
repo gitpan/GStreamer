@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 36;
 
-# $Id: GstElement.t,v 1.12 2008/03/23 16:49:25 kaffeetisch Exp $
+# $Id: GstElement.t 89 2008-11-26 21:18:43Z tsch $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -107,7 +107,7 @@ SKIP: {
 
   ok(defined $element -> send_event(GStreamer::Event::EOS -> new()));
 
-  ok(!$element -> seek(1.0, "default", [qw(flush accurate)], "cur", 23, "set", 42));
+  ok(defined $element -> seek(1.0, "default", [qw(flush accurate)], "cur", 23, "set", 42));
 
   is($element -> get_query_types(), undef);
   ok(!$element -> query(GStreamer::Query::Duration -> new("time")));

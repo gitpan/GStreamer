@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 13;
 
-# $Id: Gst.t,v 1.4 2006/08/06 18:58:57 kaffeetisch Exp $
+# $Id: Gst.t 53 2006-08-06 18:58:57Z tsch $
 
 use_ok("GStreamer", qw(
   GST_SECOND

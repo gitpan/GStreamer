@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstIndex.xs,v 1.4 2008/03/23 16:49:31 kaffeetisch Exp $
+ * $Id: GstIndex.xs 88 2008-11-26 21:17:36Z tsch $
  */
 
 #include "gst2perl.h"
@@ -109,7 +109,7 @@ gst2perl_index_resolver (GstIndex *index,
 		croak ("resolver callback must return one value: the writer string");
 
 	string = POPs;
-	if (SvOK (string)) {
+	if (gperl_sv_is_defined (string)) {
 		*writer_string = g_strdup (SvGChar (string));
 		retval = TRUE;
 	} else {

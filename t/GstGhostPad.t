@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 8;
 
-# $Id: GstGhostPad.t,v 1.2 2008/01/19 16:23:55 kaffeetisch Exp $
+# $Id: GstGhostPad.t 64 2008-01-19 16:23:55Z tsch $
 
 use GStreamer -init;
 

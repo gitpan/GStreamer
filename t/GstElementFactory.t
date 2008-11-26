@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 12;
 
-# $Id: GstElementFactory.t,v 1.3 2006/05/21 17:32:59 kaffeetisch Exp $
+# $Id: GstElementFactory.t 49 2006-05-21 17:32:59Z tsch $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;

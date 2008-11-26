@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstTypeFindFactory.xs,v 1.2 2006/01/24 19:53:20 kaffeetisch Exp $
+ * $Id: GstTypeFindFactory.xs 36 2006-01-24 19:53:20Z tsch $
  */
 
 #include "gst2perl.h"

@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 20;
 
-# $Id: GstClock.t,v 1.8 2008/03/23 16:49:25 kaffeetisch Exp $
+# $Id: GstClock.t 75 2008-03-23 16:49:31Z tsch $
 
 use Glib qw(TRUE FALSE);
 use GStreamer qw(-init GST_SECOND);

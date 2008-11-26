@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 3;
 
-# $Id: GstTagSetter.t,v 1.3 2006/01/24 19:53:20 kaffeetisch Exp $
+# $Id: GstTagSetter.t 36 2006-01-24 19:53:20Z tsch $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;

@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use GStreamer -init;
 
-# $Id: elementlink.pl,v 1.1 2005/03/23 20:46:46 kaffeetisch Exp $
+# $Id: elementlink.pl 2 2005-03-23 20:47:28Z tsch $
 
 # create elements
 my ($source, $filter, $sink) =

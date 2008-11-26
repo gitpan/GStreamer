@@ -4,7 +4,7 @@ use warnings;
 use Glib qw(TRUE FALSE filename_to_unicode);
 use GStreamer;
 
-# $Id: decodebin.pl,v 1.2 2005/12/03 00:28:13 kaffeetisch Exp $
+# $Id: decodebin.pl 29 2005-12-03 00:28:13Z tsch $
 
 sub my_bus_callback {
   my ($bus, $message, $loop) = @_;

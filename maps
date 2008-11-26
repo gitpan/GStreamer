@@ -1,4 +1,4 @@
-# $Id: maps,v 1.4 2005/12/03 00:28:12 kaffeetisch Exp $
+# $Id: maps 29 2005-12-03 00:28:13Z tsch $
 
 GST_TYPE_BIN			GstBin			GstObject	GStreamer::Bin
 GST_TYPE_BUS			GstBus			GstObject	GStreamer::Bus

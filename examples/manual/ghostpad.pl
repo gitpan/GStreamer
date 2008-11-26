@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use GStreamer -init;
 
-# $Id: ghostpad.pl,v 1.2 2005/12/03 00:28:13 kaffeetisch Exp $
+# $Id: ghostpad.pl 29 2005-12-03 00:28:13Z tsch $
 
 # create element, add to bin, add ghostpad
 my $sink = GStreamer::ElementFactory -> make("fakesink", "sink");

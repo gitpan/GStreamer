@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstStructure.xs,v 1.5 2008/03/23 16:49:31 kaffeetisch Exp $
+ * $Id: GstStructure.xs 88 2008-11-26 21:17:36Z tsch $
  */
 
 #include "gst2perl.h"
@@ -31,13 +31,13 @@ SvGstStructure (SV *sv)
 	HV *hv;
 	SV **name, **fields;
 
-	if (!SvOK (sv) || !SvRV (sv) || SvTYPE (SvRV (sv)) != SVt_PVHV)
+	if (!gperl_sv_is_hash_ref (sv))
 		croak ("GstStructure must be a hash reference");
 
 	hv = (HV *) SvRV (sv);
 
 	name = hv_fetch (hv, "name", 4, 0);
-	if (!name || !SvOK (*name))
+	if (!name || !gperl_sv_is_defined (*name))
 		croak ("GstStructure must contain a 'name' key");
 
 	/* This leaks the structure when we croak further down, but I think
@@ -45,7 +45,7 @@ SvGstStructure (SV *sv)
 	structure = gst_structure_empty_new (SvPV_nolen (*name));
 
 	fields = hv_fetch (hv, "fields", 6, 0);
-	if (fields && SvOK (*fields)) {
+	if (fields && gperl_sv_is_defined (*fields)) {
 		AV *fields_av;
 		int i;
 
@@ -60,7 +60,7 @@ SvGstStructure (SV *sv)
 
 			field = av_fetch (fields_av, i, 0);
 
-			if (!field || !SvOK (*field) || !SvRV (*field) || SvTYPE (SvRV (*field)) != SVt_PVAV)
+			if (!field || !gperl_sv_is_array_ref (*field))
 				croak ("The 'fields' array must contain array references");
 
 			field_av = (AV *) SvRV (*field);
@@ -72,12 +72,17 @@ SvGstStructure (SV *sv)
 			field_type = av_fetch (field_av, 1, 0);
 			field_value = av_fetch (field_av, 2, 0);
 
-			if (field_name && SvOK (*field_name) &&
-			    field_type && SvOK (*field_type) &&
-			    field_value && SvOK (*field_value)) {
+			if (field_name && gperl_sv_is_defined (*field_name) &&
+			    field_type && gperl_sv_is_defined (*field_type) &&
+			    field_value && gperl_sv_is_defined (*field_value)) {
 				GValue value = { 0, };
 
-				g_value_init (&value, gperl_type_from_package (SvPV_nolen (*field_type)));
+				const char *package = SvPV_nolen (*field_type);
+				GType type = gperl_type_from_package (package);
+				if (!type)
+					croak ("unregistered package %s encountered", package);
+
+				g_value_init (&value, type);
 				gperl_value_from_sv (&value, *field_value);
 				gst_structure_set_value (structure, SvGChar (*field_name), &value);
 
