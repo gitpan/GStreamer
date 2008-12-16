@@ -1,3 +1,39 @@
+2008-12-16  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* GStreamer.pm
+	* NEWS: Release 0.13.
+
+2008-12-16  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* Makefile.PL: Improve formatting a bit.
+
+2008-12-15  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* GStreamer.pm (GST_TIME_ARGS): Improve the formatting of the
+	return statement.
+
+2008-12-15  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* gst.typemap: Always use our custom wrappers for GstClockTime and
+	GstClockTimeDiff.
+
+2008-12-15  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* t/GstClock.t: Use a pipeline element for the clock tests.  Also
+	fix a possible dead lock.
+
+2008-12-15  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* t/GstElement.t
+	* xs/GstElement.xs: Properly marshal the return values of
+	gst_element_add_pad, gst_element_remove_pad, and
+	gst_element_set_locked_state.
+
+2008-12-15  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* Makefile.PL: Tell the CPAN indexer to ignore stuff in the xs
+	directory.
+
 2008-11-26  Torsten Schoenfeld  <kaffeetisch@gmx.de>
 
 	* GStreamer.pm

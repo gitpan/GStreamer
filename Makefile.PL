@@ -6,13 +6,13 @@ use warnings;
 use ExtUtils::MakeMaker;
 use Cwd qw(cwd);
 
-# $Id: Makefile.PL 85 2008-11-26 20:55:46Z tsch $
+# $Id: Makefile.PL 97 2008-12-16 19:19:00Z tsch $
 
 our %build_reqs = (
   'perl-ExtUtils-Depends'   => '0.205',
   'perl-ExtUtils-PkgConfig' => '1.07',
   'perl-Glib'               => '1.180',
-  'GStreamer'               => '0.10.0',
+  'libgstreamer'            => '0.10.0',
 );
 
 our %pre_reqs = (
@@ -38,7 +38,8 @@ unless (eval "use ExtUtils::Depends '$build_reqs{'perl-ExtUtils-Depends'}';"
 # If the package can't be found, warn and exit with status 0 to indicate to
 # CPAN testers that their system is not supported.
 my %pkgcfg;
-unless (eval { %pkgcfg = ExtUtils::PkgConfig->find ("gstreamer-0.10 >= $build_reqs{'GStreamer'}");
+unless (eval { %pkgcfg = ExtUtils::PkgConfig->find (
+                 "gstreamer-0.10 >= $build_reqs{'libgstreamer'}");
 	       1; })
 {
 	warn $@;
@@ -150,6 +151,7 @@ WriteMakefile(
 
   META_MERGE    => {
     configure_requires => \%pre_reqs,
+    no_index           => { directory => [qw/xs/] },
   },
 
   $gst->get_makefile_vars,

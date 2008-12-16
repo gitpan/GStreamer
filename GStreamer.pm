@@ -1,6 +1,6 @@
 package GStreamer;
 
-# $Id: GStreamer.pm 90 2008-11-26 21:30:32Z tsch $
+# $Id: GStreamer.pm 98 2008-12-16 19:19:29Z tsch $
 
 use 5.008;
 use strict;
@@ -28,7 +28,7 @@ our @EXPORT_OK = qw(
 
 # --------------------------------------------------------------------------- #
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 sub import {
   my ($self) = @_;
@@ -61,10 +61,12 @@ use constant GST_TIME_FORMAT => "u:%02u:%02u.%09u";
 sub GST_TIME_ARGS {
   my ($t) = @_;
 
-  return ($t / (GST_SECOND * 60 * 60),
-         ($t / (GST_SECOND * 60)) % 60,
-         ($t / GST_SECOND) % 60,
-         $t % GST_SECOND);
+  return (
+    ($t / (GST_SECOND * 60 * 60)),
+    ($t / (GST_SECOND * 60)) % 60,
+    ($t / GST_SECOND) % 60,
+    ($t % GST_SECOND)
+  );
 }
 
 use constant GST_RANK_NONE => 0;

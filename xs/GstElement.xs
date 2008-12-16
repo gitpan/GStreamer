@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstElement.xs 58 2006-08-27 18:29:45Z tsch $
+ * $Id: GstElement.xs 93 2008-12-15 19:00:56Z tsch $
  */
 
 #include "gst2perl.h"
@@ -55,9 +55,9 @@ GstIndex_ornull* gst_element_get_index (GstElement *element);
 
 GstBus_ornull * gst_element_get_bus (GstElement * element);
 
-void gst_element_add_pad (GstElement *element, GstPad *pad);
+gboolean gst_element_add_pad (GstElement *element, GstPad *pad);
 
-void gst_element_remove_pad (GstElement *element, GstPad *pad);
+gboolean gst_element_remove_pad (GstElement *element, GstPad *pad);
 
 GstPad_ornull * gst_element_get_pad (GstElement *element, const gchar *name);
 
@@ -169,7 +169,7 @@ gst_element_found_tags_for_pad (element, pad, list)
 
 gboolean gst_element_is_locked_state (GstElement *element);
 
-void gst_element_set_locked_state (GstElement *element, gboolean locked_state);
+gboolean gst_element_set_locked_state (GstElement *element, gboolean locked_state);
 
 gboolean gst_element_sync_state_with_parent (GstElement *element);
 
