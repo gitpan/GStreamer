@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 21;
 
-# $Id: GstRegistry.t 76 2008-05-04 12:01:57Z tsch $
+# $Id: GstRegistry.t 100 2008-12-20 12:11:18Z tsch $
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;
@@ -43,7 +43,14 @@ is($#features, 0);
 isa_ok($features[0], "GStreamer::PluginFeature");
 
 isa_ok(($registry -> get_feature_list("GStreamer::ElementFactory"))[0], "GStreamer::PluginFeature");
-isa_ok(($registry -> get_feature_list_by_plugin("alsa"))[0], "GStreamer::PluginFeature");
+
+my $plugin_feature = ($registry -> get_feature_list_by_plugin("alsa"))[0];
+SKIP: {
+  skip 'no alsa plugin found', 1
+    unless defined $plugin_feature;
+
+  isa_ok($plugin_feature, "GStreamer::PluginFeature");
+}
 
 isa_ok($registry -> find_plugin("volume"), "GStreamer::Plugin");
 isa_ok($registry -> find_feature("volume", "GStreamer::ElementFactory"), "GStreamer::PluginFeature");

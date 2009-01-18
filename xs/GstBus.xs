@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstBus.xs 75 2008-03-23 16:49:31Z tsch $
+ * $Id: GstBus.xs 101 2008-12-20 12:11:51Z tsch $
  */
 
 #include "gst2perl.h"
@@ -32,9 +32,10 @@ bus_watch (GstBus *bus, GstMessage *message, gpointer data)
 {
 	gboolean retval;
 	int count;
+	GPerlCallback *callback;
 	dGPERL_CALLBACK_MARSHAL_SP;
 
-	GPerlCallback *callback = data;
+	callback = data;
 	GPERL_CALLBACK_MARSHAL_INIT (callback);
 
 	ENTER;

@@ -1,3 +1,25 @@
+2009-01-18  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* GStreamer.pm
+	* NEWS: Release 0.14.
+
+2009-01-18  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* t/GstClock.t: Skip the wait_async test for now as it appears to
+	be broken.
+
+2008-12-20  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* t/Gst.t: Print version information.
+
+2008-12-20  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* xs/GstBus.xs (bus_watch): Don't mix declarations and expressions.
+
+2008-12-20  Torsten Schoenfeld  <kaffeetisch@gmx.de>
+
+	* t/GstRegistry.t: Don't assume an 'alsa' plugin is present.
+
 2008-12-16  Torsten Schoenfeld  <kaffeetisch@gmx.de>
 
 	* GStreamer.pm

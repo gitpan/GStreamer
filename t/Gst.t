@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 13;
 
-# $Id: Gst.t 53 2006-08-06 18:58:57Z tsch $
+# $Id: Gst.t 102 2008-12-20 12:18:37Z tsch $
 
 use_ok("GStreamer", qw(
   GST_SECOND
@@ -30,6 +30,10 @@ like($a, $number);
 like($b, $number);
 like($c, $number);
 like($d, $number);
+
+diag 'Testing GStreamer ', $GStreamer::VERSION;
+diag '  Compiled against libgstreamer ', join '.', GStreamer -> GET_VERSION_INFO();
+diag '   Running against libgstreamer ', join '.', GStreamer -> version();
 
 ok(defined GStreamer -> version_string());
 
