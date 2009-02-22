@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstIndex.xs 88 2008-11-26 21:17:36Z tsch $
+ * $Id: GstIndex.xs 106 2009-02-21 15:37:57Z tsch $
  */
 
 #include "gst2perl.h"
@@ -188,10 +188,10 @@ gst_index_get_writer_id (index, writer)
     OUTPUT:
 	RETVAL
 
-GstIndexEntry_own * gst_index_add_format (GstIndex *index, gint id, GstFormat format);
+GstIndexEntry_ornull * gst_index_add_format (GstIndex *index, gint id, GstFormat format);
 
 # GstIndexEntry * gst_index_add_association (GstIndex *index, gint id, GstAssocFlags flags, GstFormat format, gint64 value, ...);
-GstIndexEntry_own *
+GstIndexEntry_ornull *
 gst_index_add_association (index, id, flags, format, value, ...)
 	GstIndex *index
 	gint id
@@ -226,7 +226,7 @@ gst_index_add_association (index, id, flags, format, value, ...)
 	RETVAL
 
 # GstIndexEntry * gst_index_add_object (GstIndex *index, gint id, gchar *key, GType type, gpointer object);
-GstIndexEntry_own *
+GstIndexEntry_ornull *
 gst_index_add_object (index, id, key, object)
 	GstIndex *index
 	gint id
@@ -242,9 +242,9 @@ gst_index_add_object (index, id, key, object)
     OUTPUT:
 	RETVAL
 
-GstIndexEntry_own * gst_index_add_id (GstIndex *index, gint id, gchar *description);
+GstIndexEntry_ornull * gst_index_add_id (GstIndex *index, gint id, gchar *description);
 
-GstIndexEntry_own * gst_index_get_assoc_entry (GstIndex *index, gint id, GstIndexLookupMethod method, GstAssocFlags flags, GstFormat format, gint64 value);
+GstIndexEntry_ornull * gst_index_get_assoc_entry (GstIndex *index, gint id, GstIndexLookupMethod method, GstAssocFlags flags, GstFormat format, gint64 value);
 
 # FIXME?
 # GstIndexEntry * gst_index_get_assoc_entry_full (GstIndex *index, gint id, GstIndexLookupMethod method, GstAssocFlags flags, GstFormat format, gint64 value, GCompareDataFunc func, gpointer user_data);

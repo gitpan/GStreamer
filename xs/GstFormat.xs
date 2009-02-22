@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstFormat.xs 29 2005-12-03 00:28:13Z tsch $
+ * $Id: GstFormat.xs 109 2009-02-21 15:41:24Z tsch $
  */
 
 #include "gst2perl.h"
@@ -44,7 +44,12 @@ SvGstFormat (SV *sv)
 	if (gperl_try_convert_enum (GST_TYPE_FORMAT, sv, (gint *) &format))
 		return format;
 
-	return gst_format_get_by_nick (SvPV_nolen (sv));
+	format = gst_format_get_by_nick (SvPV_nolen (sv));
+	if (GST_FORMAT_UNDEFINED == format)
+		croak ("`%s' is not a valid GstFormat value",
+		       gperl_format_variable_for_output (sv));
+
+	return format;
 }
 
 /* ------------------------------------------------------------------------- */

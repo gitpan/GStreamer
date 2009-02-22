@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstIterator.xs 59 2006-12-02 16:37:31Z tsch $
+ * $Id: GstIterator.xs 110 2009-02-22 11:51:46Z tsch $
  */
 
 #include "gst2perl.h"
@@ -28,6 +28,9 @@ newSVGstIterator (const GstIterator *iter)
 	AV *av, *dummy;
 	SV *tie, *ref;
 	HV *stash;
+
+	if (!iter)
+		return &PL_sv_undef;
 
 	av = newAV ();
 	dummy = newAV ();
