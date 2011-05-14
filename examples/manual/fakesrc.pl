@@ -4,7 +4,7 @@ use warnings;
 use Glib qw(TRUE FALSE);
 use GStreamer;
 
-# $Id: fakesrc.pl 29 2005-12-03 00:28:13Z tsch $
+# $Id$
 
 sub cb_handoff {
   my ($fakesrc, $buffer, $pad, $user_data) = @_;

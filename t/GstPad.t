@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 43;
 
-# $Id: GstPad.t 111 2009-02-22 12:02:46Z tsch $
+# $Id$
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;

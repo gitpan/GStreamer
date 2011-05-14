@@ -1,6 +1,6 @@
 package GStreamer;
 
-# $Id: GStreamer.pm 114 2009-02-22 12:16:58Z tsch $
+# $Id$
 
 use 5.008;
 use strict;
@@ -28,7 +28,7 @@ our @EXPORT_OK = qw(
 
 # --------------------------------------------------------------------------- #
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 sub import {
   my ($self) = @_;
@@ -301,6 +301,6 @@ on basic stuff like signals or object properties, this is what you should read.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2005-2008 by the gtk2-perl team
+Copyright (C) 2005-2011 by the gtk2-perl team
 
 =cut

@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstChildProxy.xs 30 2005-12-04 18:56:41Z tsch $
+ * $Id$
  */
 
 #include "gst2perl.h"

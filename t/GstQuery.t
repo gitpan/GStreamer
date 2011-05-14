@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 22;
 
-# $Id: GstQuery.t 34 2005-12-19 00:26:44Z tsch $
+# $Id$
 
 use GStreamer -init;
 

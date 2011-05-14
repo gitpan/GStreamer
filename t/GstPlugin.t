@@ -5,7 +5,7 @@ use ExtUtils::PkgConfig;
 use File::Spec;
 use Test::More tests => 13;
 
-# $Id: GstPlugin.t 75 2008-03-23 16:49:31Z tsch $
+# $Id$
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;

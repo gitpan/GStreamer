@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstBuffer.xs 52 2006-07-17 09:06:33Z tsch $
+ * $Id$
  */
 
 #include "gst2perl.h"

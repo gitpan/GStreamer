@@ -4,7 +4,7 @@ use warnings;
 use Glib qw(TRUE FALSE filename_to_unicode);
 use GStreamer qw(-init GST_RANK_MARGINAL);
 
-# $Id: dynamic.pl 29 2005-12-03 00:28:13Z tsch $
+# $Id$
 
 my ($pipeline, @factories);
 

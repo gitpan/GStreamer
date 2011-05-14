@@ -6,7 +6,7 @@ use warnings;
 use ExtUtils::MakeMaker;
 use Cwd qw(cwd);
 
-# $Id: Makefile.PL 113 2009-02-22 12:13:36Z tsch $
+# $Id$
 
 our %build_reqs = (
   'perl-ExtUtils-Depends'   => '0.205',

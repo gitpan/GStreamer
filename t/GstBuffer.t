@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 14;
 
-# $Id: GstBuffer.t 29 2005-12-03 00:28:13Z tsch $
+# $Id$
 
 use GStreamer -init;
 
@@ -14,7 +14,8 @@ isa_ok($buffer, "GStreamer::MiniObject");
 $buffer -> set_data("urgs");
 $buffer -> stamp(GStreamer::Buffer -> new());
 
-my $caps = GStreamer::Caps::Empty -> new();
+my $caps = GStreamer::Caps::Simple -> new("audio/mpeg",
+                                          foo => "Glib::String" => "bar");
 $buffer -> set_caps($caps);
 is($buffer -> get_caps(), $caps);
 

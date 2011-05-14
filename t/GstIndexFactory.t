@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 3;
 
-# $Id: GstIndexFactory.t 29 2005-12-03 00:28:13Z tsch $
+# $Id$
 
 use GStreamer -init;
 

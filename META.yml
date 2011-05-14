@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               GStreamer
-version:            0.15
+version:            0.16
 abstract:           Perl interface to the GStreamer library
 author:  []
 license:            unknown
@@ -10,6 +10,8 @@ configure_requires:
     ExtUtils::MakeMaker:  0
     ExtUtils::PkgConfig:  1.07
     Glib:                 1.180
+build_requires:
+    ExtUtils::MakeMaker:  0
 requires:
     ExtUtils::Depends:    0.205
     ExtUtils::PkgConfig:  1.07
@@ -19,7 +21,7 @@ no_index:
         - t
         - inc
         - xs
-generated_by:       ExtUtils::MakeMaker version 6.48
+generated_by:       ExtUtils::MakeMaker version 6.56
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4

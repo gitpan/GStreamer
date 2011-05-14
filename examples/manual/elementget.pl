@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use GStreamer -init;
 
-# $Id: elementget.pl 2 2005-03-23 20:47:28Z tsch $
+# $Id$
 
 my $element = GStreamer::ElementFactory -> make("fakesrc", "source");
 

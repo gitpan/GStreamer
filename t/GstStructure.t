@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 9;
 
-# $Id: GstStructure.t 65 2008-01-19 16:31:46Z tsch $
+# $Id$
 
 use Glib qw(TRUE FALSE);
 use GStreamer -init;

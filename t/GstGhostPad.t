@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Test::More tests => 8;
 
-# $Id: GstGhostPad.t 64 2008-01-19 16:23:55Z tsch $
+# $Id$
 
 use GStreamer -init;
 
@@ -21,6 +21,7 @@ SKIP: {
   is($gpad -> get_target(), $pad);
 }
 
+$pad = GStreamer::Pad -> new("urgs", "src");
 $gpad = GStreamer::GhostPad -> new(undef, $pad);
 SKIP: {
   skip 'new() returned undef', 2

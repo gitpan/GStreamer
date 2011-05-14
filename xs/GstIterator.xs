@@ -15,7 +15,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * $Id: GstIterator.xs 110 2009-02-22 11:51:46Z tsch $
+ * $Id$
  */
 
 #include "gst2perl.h"

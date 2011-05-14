@@ -4,7 +4,7 @@ use warnings;
 use Glib qw(TRUE FALSE);
 use Test::More;
 
-# $Id: GstMessage.t 75 2008-03-23 16:49:31Z tsch $
+# $Id$
 
 use GStreamer -init;
 

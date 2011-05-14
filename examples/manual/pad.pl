@@ -4,7 +4,7 @@ use warnings;
 use Glib qw(filename_to_unicode TRUE FALSE);
 use GStreamer -init;
 
-# $Id: pad.pl 29 2005-12-03 00:28:13Z tsch $
+# $Id$
 
 sub cb_new_pad {
   my ($element, $pad, $data) = @_;
