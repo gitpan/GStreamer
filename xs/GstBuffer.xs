@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005 by the gtk2-perl team
+ * Copyright (C) 2005, 2012 by the gtk2-perl team
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -13,7 +13,8 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
  *
  * $Id$
  */
@@ -95,11 +96,26 @@ gst_buffer_set_data (buf, data)
 	GstBuffer *buf
 	SV *data
     PREINIT:
-	int length = sv_len (data);
+	STRLEN length;
+	gchar *raw_data;
     CODE:
-	/* FIXME: Hot to get rid of the leak? */
+	if (buf->malloc_data) {
+#if GST_CHECK_VERSION (0, 10, 22)
+		if (buf->free_func)
+			buf->free_func (buf->malloc_data);
+		else
+			g_free (buf->malloc_data);
+#else
+		g_free (buf->malloc_data);
+#endif
+	}
+	raw_data = SvPV (data, length);
+	buf->malloc_data = (guchar*) g_strndup (raw_data, length);
+#if GST_CHECK_VERSION (0, 10, 22)
+	buf->free_func = g_free;
+#endif
 	gst_buffer_set_data (buf,
-	                     (guchar *) g_strndup (SvPV_nolen (data), length),
+	                     buf->malloc_data,
 	                     length);
 
 GstCaps_own_ornull * gst_buffer_get_caps (GstBuffer *buffer);
