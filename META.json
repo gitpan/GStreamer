@@ -1,12 +1,12 @@
 {
    "abstract" : "Perl interface to the GStreamer library",
    "author" : [
-      "unknown"
+      "gtk2-perl Team <gtk-perl-list at gnome dot org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.113640",
+   "generated_by" : "ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.112621",
    "license" : [
-      "unknown"
+      "lgpl_2_1"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -21,20 +21,7 @@
       ]
    },
    "prereqs" : {
-      "build" : {
-         "requires" : {
-            "ExtUtils::MakeMaker" : 0
-         }
-      },
       "configure" : {
-         "requires" : {
-            "ExtUtils::Depends" : "0.205",
-            "ExtUtils::MakeMaker" : 0,
-            "ExtUtils::PkgConfig" : "1.07",
-            "Glib" : "1.180"
-         }
-      },
-      "runtime" : {
          "requires" : {
             "ExtUtils::Depends" : "0.205",
             "ExtUtils::PkgConfig" : "1.07",
@@ -43,5 +30,21 @@
       }
    },
    "release_status" : "stable",
-   "version" : "0.17"
+   "resources" : {
+      "bugtracker" : {
+         "mailto" : "bug-GStreamer [at] rt.cpan.org",
+         "web" : "http://rt.cpan.org/Public/Dist/Display.html?Name=GStreamer"
+      },
+      "homepage" : "http://gtk2-perl.sourceforge.net",
+      "license" : [
+         "http://www.gnu.org/licenses/lgpl-2.1.html"
+      ],
+      "repository" : {
+         "type" : "git",
+         "url" : "git://git.gnome.org/perl-GStreamer",
+         "web" : "http://git.gnome.org/browse/perl-GStreamer"
+      },
+      "x_MailingList" : "https://mail.gnome.org/mailman/listinfo/gtk-perl-list"
+   },
+   "version" : "0.18"
 }

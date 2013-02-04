@@ -1,17 +1,15 @@
 ---
 abstract: 'Perl interface to the GStreamer library'
 author:
-  - unknown
-build_requires:
-  ExtUtils::MakeMaker: 0
+  - 'gtk2-perl Team <gtk-perl-list at gnome dot org>'
+build_requires: {}
 configure_requires:
   ExtUtils::Depends: 0.205
-  ExtUtils::MakeMaker: 0
   ExtUtils::PkgConfig: 1.07
   Glib: 1.180
 dynamic_config: 1
-generated_by: 'ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.113640'
-license: unknown
+generated_by: 'ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.112621'
+license: lgpl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
@@ -21,8 +19,10 @@ no_index:
     - t
     - inc
     - xs
-requires:
-  ExtUtils::Depends: 0.205
-  ExtUtils::PkgConfig: 1.07
-  Glib: 1.180
-version: 0.17
+resources:
+  bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=GStreamer
+  homepage: http://gtk2-perl.sourceforge.net
+  license: http://www.gnu.org/licenses/lgpl-2.1.html
+  repository: git://git.gnome.org/perl-GStreamer
+  x_MailingList: https://mail.gnome.org/mailman/listinfo/gtk-perl-list
+version: 0.18

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005, 2012 by the gtk2-perl team
+ * Copyright (C) 2005, 2012-2013 by the gtk2-perl team
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -38,6 +38,14 @@ data (buffer)
 	GstBuffer *buffer
     CODE:
 	RETVAL = newSVpv ((gchar *) GST_BUFFER_DATA (buffer), GST_BUFFER_SIZE (buffer));
+    OUTPUT:
+	RETVAL
+
+void *
+data_ptr (buffer)
+	GstBuffer *buffer
+    CODE:
+	RETVAL = GST_BUFFER_DATA (buffer);
     OUTPUT:
 	RETVAL
 
