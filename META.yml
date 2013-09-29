@@ -8,7 +8,7 @@ configure_requires:
   ExtUtils::PkgConfig: 1.07
   Glib: 1.180
 dynamic_config: 1
-generated_by: 'ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.112621'
+generated_by: 'ExtUtils::MakeMaker version 6.66, CPAN::Meta::Converter version 2.120921'
 license: lgpl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -25,4 +25,4 @@ resources:
   license: http://www.gnu.org/licenses/lgpl-2.1.html
   repository: git://git.gnome.org/perl-GStreamer
   x_MailingList: https://mail.gnome.org/mailman/listinfo/gtk-perl-list
-version: 0.18
+version: 0.19
